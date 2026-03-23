@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio dos Números!</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: #1a0533 !important;
+    min-height: 100vh;
+    font-family: 'Baloo 2', cursive;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* Fundo Espacial */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, #2d0a5e 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, #0a1a5e 0%, transparent 60%),
+      radial-gradient(ellipse at 60% 80%, #5e0a2d 0%, transparent 50%);
+    z-index: 0;
+  }
+
+  .stars { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+  .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
+
+  /* Telas */
+  .screen {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out, opacity 0.5s;
+  }
+
+  .hidden { display: none !important; opacity: 0; }
+
+  /* Tela Inicial */
+  .menu-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    color: #ffe066;
+    text-align: center;
+    text-shadow: 0 0 30px #ffb700, 0 5px 0 #b37700;
+    margin-bottom: 20px;
+  }
+
+  .btn-start {
+    padding: 20px 50px;
+    font-size: 1.8rem;
+    font-family: 'Fredoka One', cursive;
+    background: linear-gradient(135deg, #ffcc00, #ff9900);
+    color: #fff;
+    border: 6px solid #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 0 #cc7700, 0 20px 40px rgba(0,0,0,0.4);
+    transition: all 0.2s;
+  }
+  .btn-start:active { transform: translateY(8px); box-shadow: 0 2px 0 #cc7700; }
+
+  /* App Game */
+  .card {
+    width: min(320px, 85vw);
+    aspect-ratio: 1;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 6px solid rgba(255,255,255,0.3);
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+  .number-display {
+    font-family: 'Fredoka One', cursive;
+    font-size: 120px;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255,255,255,0.5);
+  }
+
+  .lang-buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .lang-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Baloo 2', bold;
+    color: white;
+    font-weight: 800;
+  }
+
+  .lang-btn-pt { background: #009c3b; }
+  .lang-btn-es { background: #d52b1e; }
+  .lang-btn-en { background: #00247d; }
+
+  .next-btn {
+    margin-top: 10px;
+    padding: 15px 40px;
+    background: #ffe066;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: #5e3a00;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #b37700;
+  }
+  .next-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #b37700; }
+
+  .confetti-piece {
+    position: fixed; width: 10px; height: 10px; z-index: 20; animation: fall 2s forwards;
+  }
+  @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="screen" id="menuScreen">
+  <div class="menu-title">🚀 Mestre dos Números!</div>
+  <button class="btn-start" onclick="startGame()">JOGAR!</button>
+</div>
+
+<div class="screen hidden" id="gameScreen">
+  <div class="card" id="card">
+    <div class="number-display" id="numVal">0</div>
+  </div>
+
+  <div style="color: #fff; font-weight: 700; opacity: 0.8;">Ouvir em:</div>
+  <div class="lang-buttons">
+    <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🇧🇷 PT</button>
+    <button class="lang-btn lang-btn-es" onclick="speak('es')">🇲🇽 MX</button>
+    <button class="lang-btn lang-btn-en" onclick="speak('en')">🇺🇸 EN</button>
+  </div>
+
+  <button class="next-btn" onclick="nextNumber()">PRÓXIMO NÚMERO ➔</button>
+</div>
+
+<script>
+  let currentNum = 0;
+
+  // Gerar Estrelas
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 50; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.width = s.style.height = (Math.random() * 3) + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.setProperty('--d', (Math.random() * 3 + 1) + 's');
+    starsContainer.appendChild(s);
+  }
+
+  function startGame() {
+    document.getElementById('menuScreen').classList.add('hidden');
+    document.getElementById('gameScreen').classList.remove('hidden');
+    nextNumber();
+  }
+
+  function nextNumber() {
+    currentNum = Math.floor(Math.random() * 101);
+    const display = document.getElementById('numVal');
+    display.textContent = currentNum;
+    
+    // Animação de entrada
+    display.style.animation = 'none';
+    void display.offsetWidth;
+    display.style.animation = 'pop 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+    
+    // Mudar cor do card aleatoriamente
+    const colors = [['#2d004f','#6600aa'], ['#003a6e','#0066cc'], ['#004a1f','#008833'], ['#5c0000','#cc0000']];
+    const pick = colors[Math.floor(Math.random()*colors.length)];
+    document.getElementById('card').style.background = `linear-gradient(135deg, ${pick[0]}, ${pick[1]})`;
+    
+    confetti();
+  }
+
+  function speak(langCode) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+
+    const voices = window.speechSynthesis.getVoices();
+    const utterance = new SpeechSynthesisUtterance(currentNum.toString());
+    
+    // Configurações por língua
+    if (langCode === 'pt') {
+      utterance.lang = 'pt-BR';
+    } else if (langCode === 'es') {
+      // Tenta forçar espanhol do México (es-MX)
+      utterance.lang = 'es-MX';
+      const mxVoice = voices.find(v => v.lang.includes('MX') || v.name.includes('Mexico'));
+      if (mxVoice) utterance.voice = mxVoice;
+    } else if (langCode === 'en') {
+      utterance.lang = 'en-US';
+    }
+
+    utterance.rate = 0.85; // Um pouco mais devagar para clareza
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function confetti() {
+    for (let i = 0; i < 15; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = '-10px';
+      p.style.backgroundColor = ['#ff0', '#f0f', '#0ff', '#fff'][Math.floor(Math.random()*4)];
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 2000);
+    }
+  }
+
+  // Inicializa vozes
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+</script>
+
+</body>
+</html>
