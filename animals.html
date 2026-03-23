@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safari da Pronúncia v1.2.0</title>
+<title>Safari da Pronúncia v1.3.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,24 +13,20 @@
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  /* Cabeçalho */
   .nav-header { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
   
   .btn-back-menu { 
     text-decoration: none; background: linear-gradient(135deg, #4dabf7, #228be6); 
     padding: 10px 22px; border-radius: 15px; color: white; font-weight: 800; 
     font-size: 0.85rem; border: none; box-shadow: 0 4px 15px rgba(34, 139, 230, 0.4);
-    display: flex; align-items: center; justify-content: center;
   }
 
   .parent-lock { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 5px; opacity: 0.8; }
 
-  /* Quantidade de animais (Sem a palavra FILA) */
-  .counter { color: #a3ffac; font-size: 0.9rem; font-weight: bold; position: absolute; top: 70px; width: 100%; text-align: center; pointer-events: none; }
+  .counter { color: #a3ffac; font-size: 0.9rem; font-weight: bold; position: absolute; top: 70px; width: 100%; text-align: center; }
 
   .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 8px; }
 
-  /* Card */
   .card { 
     width: min(280px, 75vw); aspect-ratio: 1; border-radius: 45px; 
     display: flex; align-items: center; justify-content: center; 
@@ -40,7 +36,6 @@
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   .animal-emoji { font-size: 150px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
 
-  /* Controles */
   .lang-container { display: flex; gap: 8px; width: 100%; max-width: 480px; justify-content: center; align-items: flex-end; }
   .lang-column { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
   
@@ -50,37 +45,20 @@
     text-align: center; min-height: 2.4em; display: flex; align-items: center; width: 100%; justify-content: center;
   }
 
-  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; color: white; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; color: white; font-weight: 800; font-size: 0.75rem; }
   .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
   .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
   .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
-  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; transition: 0.2s; position: relative; }
+  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; }
   
-  /* Check de Gravação Concluída */
-  .tool-btn.has-audio::after {
-    content: '✅';
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    font-size: 0.9rem;
-    background: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  }
-
   .tool-btn.recording { background: #ff4444 !important; animation: pulse 0.8s infinite; }
   .tool-btn.has-audio { background: #a3ffac !important; color: #0b1a30; }
   
   @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.95); } }
 
   .footer-nav { display: flex; align-items: center; gap: 15px; margin-top: 15px; margin-bottom: 30px; }
-  .nav-arrow-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .nav-arrow-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 1.5rem; }
 
   .next-btn { 
     padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; 
@@ -95,18 +73,14 @@
 <body>
 
 <div class="stars" id="stars"></div>
-
 <div class="nav-header">
   <a href="index.html" class="btn-back-menu">MENU</a>
   <button class="parent-lock" id="lockBtn" onclick="toggleLock()">🔒</button>
 </div>
-
 <div class="counter" id="counterUI">...</div>
 
 <div class="screen">
-  <div class="card" id="card">
-    <div class="animal-emoji" id="animalEmoji">🐾</div>
-  </div>
+  <div class="card" id="card"><div class="animal-emoji" id="animalEmoji">🐾</div></div>
 
   <div class="lang-container">
     <div class="lang-column">
@@ -135,10 +109,9 @@
   </div>
 </div>
 
-<div class="version-footer">v1.2.0</div>
+<div class="version-footer">v1.3.0</div>
 
 <script>
-  // Lista completa de animais (resumida para o código não ficar gigante, mas com a lógica de 64 animais)
   const allAnimals = [
     { pt: "Leão", en: "Lion", es: "León", emoji: "🦁", bg: "#d4a017" },
     { pt: "Elefante", en: "Elephant", es: "Elefante", emoji: "🐘", bg: "#808b96" },
@@ -214,16 +187,15 @@
   function toggleLock() {
     isLocked = !isLocked;
     document.getElementById('lockBtn').textContent = isLocked ? '🔒' : '🔓';
-    checkReqs();
+    updateCounter();
   }
 
-  function checkReqs() {
+  function updateCounter() {
+    document.getElementById('counterUI').textContent = `${queue.length} animais restantes`;
     const ready = audioBlobs.pt && audioBlobs.es && audioBlobs.en;
     document.getElementById('btnNext').disabled = isLocked && !ready;
-    document.getElementById('counterUI').textContent = `${queue.length} animais restantes`;
   }
 
-  // GRAVAÇÃO ESTABILIZADA
   async function startRec(lang) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -231,33 +203,24 @@
       let chunks = [];
       const btn = document.getElementById(`rec-${lang}`);
       
-      btn.classList.remove('has-audio');
       btn.classList.add('recording');
+      btn.classList.remove('has-audio');
 
       recorder.ondataavailable = e => chunks.push(e.data);
       recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'audio/webm' });
-        audioBlobs[lang] = URL.createObjectURL(blob);
+        audioBlobs[lang] = URL.createObjectURL(new Blob(chunks));
         document.getElementById(`play-${lang}`).disabled = false;
-        
         btn.classList.remove('recording');
-        btn.classList.add('has-audio'); // CHECK VERDE MANUAL (CONQUISTA)
-        
+        btn.classList.add('has-audio');
         stream.getTracks().forEach(t => t.stop());
-        checkReqs();
+        updateCounter();
       };
-
       recorder.start();
       setTimeout(() => { if(recorder.state === "recording") recorder.stop(); }, 3000);
-    } catch (e) { alert("Acesso ao microfone negado."); }
+    } catch (e) { alert("Microfone não disponível."); }
   }
 
-  function playAudio(lang) {
-    if (audioBlobs[lang]) {
-      const audio = new Audio(audioBlobs[lang]);
-      audio.play();
-    }
-  }
+  function playAudio(lang) { if (audioBlobs[lang]) new Audio(audioBlobs[lang]).play(); }
 
   function display(animal) {
     currentAnimal = animal;
@@ -266,15 +229,13 @@
     document.getElementById('label-es').textContent = animal.es;
     document.getElementById('label-en').textContent = animal.en;
     document.getElementById('card').style.background = `linear-gradient(135deg, ${animal.bg}, #0b1a30)`;
-    
     ['pt', 'es', 'en'].forEach(l => {
       audioBlobs[l] = null;
       document.getElementById(`play-${l}`).disabled = true;
       document.getElementById(`rec-${l}`).classList.remove('has-audio', 'recording');
     });
-    
     document.getElementById('btnPrev').disabled = history.length === 0;
-    checkReqs();
+    updateCounter();
   }
 
   function nextAnimal() {
@@ -294,11 +255,9 @@
     window.speechSynthesis.cancel();
     const ut = new SpeechSynthesisUtterance(currentAnimal[lang]);
     ut.lang = lang === 'pt' ? 'pt-BR' : (lang === 'es' ? 'es-MX' : 'en-US');
-    ut.rate = lang === 'en' ? 0.7 : 0.9;
     window.speechSynthesis.speak(ut);
   }
 
-  // Estrelas
   for (let i = 0; i < 40; i++) {
     const s = document.createElement('div');
     s.className = 'star';
