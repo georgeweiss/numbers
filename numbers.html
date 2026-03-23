@@ -3,180 +3,232 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mestre da Pronúncia!</title>
+<title>Mestre dos Números v1.3.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #1a0533; min-height: 100vh; font-family: 'Baloo 2', cursive; overflow-x: hidden; user-select: none; }
+  html, body { background: #0b1a30; min-height: 100vh; font-family: 'Baloo 2', cursive; overflow-x: hidden; user-select: none; }
   
-  .stars { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 15px; }
-  .hidden { display: none !important; }
-
-  .menu-title { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: #ffe066; text-align: center; text-shadow: 0 4px 0 #b37700; }
-  .btn-start { padding: 18px 45px; font-size: 1.6rem; font-family: 'Fredoka One', cursive; background: #ff9900; color: #fff; border: 5px solid #fff; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 0 #cc7700; transition: 0.2s; }
-
-  .card { width: min(260px, 70vw); aspect-ratio: 1; border-radius: 35px; display: flex; align-items: center; justify-content: center; border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; margin-bottom: 10px; }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-  .number-display { font-family: 'Fredoka One', cursive; font-size: clamp(80px, 20vw, 120px); color: #fff; text-shadow: 0 0 25px rgba(255,255,255,0.4); }
-
-  .lang-container { display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; }
-  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; }
+  /* Cabeçalho */
+  .nav-header { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
   
-  .lang-btn { width: 100%; padding: 10px 5px; border-radius: 12px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .btn-back-menu { 
+    text-decoration: none; 
+    background: linear-gradient(135deg, #4dabf7, #228be6); 
+    padding: 10px 22px; 
+    border-radius: 15px; 
+    color: white; 
+    font-weight: 800; 
+    font-size: 0.85rem; 
+    border: none;
+    box-shadow: 0 4px 15px rgba(34, 139, 230, 0.4);
+    display: block;
+  }
+
+  .parent-lock { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 5px; opacity: 0.8; }
+
+  .counter { color: #a3ffac; font-size: 0.85rem; font-weight: bold; position: absolute; top: 65px; width: 100%; text-align: center; pointer-events: none; }
+
+  .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 8px; }
+
+  .card { 
+    width: min(280px, 75vw); aspect-ratio: 1; border-radius: 45px; 
+    display: flex; align-items: center; justify-content: center; 
+    border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; 
+    margin-bottom: 5px; position: relative;
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  
+  .number-display { font-family: 'Fredoka One', cursive; font-size: 120px; color: #fff; text-shadow: 0 0 25px rgba(255,255,255,0.4); }
+
+  .lang-container { display: flex; gap: 8px; width: 100%; max-width: 480px; justify-content: center; align-items: flex-end; }
+  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+  
+  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; color: white; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
   .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
   .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
   .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
-  .record-tools-stack { display: flex; flex-direction: column; gap: 6px; width: 100%; }
-  .tool-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.2rem; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
-  .tool-btn:disabled { opacity: 0.15; cursor: not-allowed; }
+  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; transition: 0.2s; }
   
-  .recording { background: #ff4444 !important; animation: pulse-red 1s infinite; box-shadow: 0 0 15px #ff4444; }
-  @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+  .tool-btn.has-audio { background: #a3ffac !important; color: #0b1a30; }
+  .tool-btn.recording { background: #ff4444 !important; color: white !important; animation: pulse 0.8s infinite !important; }
+  
+  @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
 
-  .next-btn { margin-top: 20px; padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #5e3a00; cursor: pointer; box-shadow: 0 6px 0 #b37700; transition: 0.2s; }
-  .next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b37700; }
+  .tool-btn:disabled { opacity: 0.1; }
+
+  .footer-nav { display: flex; align-items: center; gap: 15px; margin-top: 15px; }
+  .nav-arrow-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .nav-arrow-btn:disabled { opacity: 0.2; }
+
+  .next-btn { 
+    padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; 
+    font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #5e3a00; cursor: pointer; 
+    box-shadow: 0 6px 0 #b37700; transition: 0.3s;
+  }
+  .next-btn:disabled { background: #555; color: #888; box-shadow: 0 6px 0 #333; opacity: 0.5; cursor: not-allowed; }
+
+  .version-footer { position: fixed; bottom: 8px; width: 100%; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.65rem; pointer-events: none; }
 </style>
 </head>
 <body>
 
 <div class="stars" id="stars"></div>
 
-<div class="screen" id="menuScreen">
-  <div class="menu-title">🚀 Mestre dos Números</div>
-  <button class="btn-start" onclick="startGame()">JOGAR!</button>
+<div class="nav-header">
+  <a href="index.html" class="btn-back-menu">MENU</a>
+  <button class="parent-lock" id="lockBtn" onclick="toggleLock()">🔒</button>
 </div>
 
-<div class="screen hidden" id="gameScreen">
-  <div class="card" id="card"><div class="number-display" id="numVal">0</div></div>
+<div class="counter" id="counterUI">Faltam 100 números</div>
+
+<div class="screen">
+  <div class="card" id="card">
+    <div class="number-display" id="numVal">0</div>
+  </div>
 
   <div class="lang-container">
     <div class="lang-column">
-      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">
-        <span>🇧🇷 PT</span><span>🔊</span>
-      </button>
-      <div class="record-tools-stack">
-        <button class="tool-btn" id="rec-pt" onclick="startRecording('pt')">🎙️</button>
-        <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>▶️</button>
-      </div>
+      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🔈 PT 🇧🇷</button>
+      <button class="tool-btn" id="rec-pt" onclick="startRecording('pt')">🎙️</button>
+      <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>▶️</button>
     </div>
     <div class="lang-column">
-      <button class="lang-btn lang-btn-es" onclick="speak('es')">
-        <span>🇲🇽 MX</span><span>🔊</span>
-      </button>
-      <div class="record-tools-stack">
-        <button class="tool-btn" id="rec-es" onclick="startRecording('es')">🎙️</button>
-        <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>▶️</button>
-      </div>
+      <button class="lang-btn lang-btn-es" onclick="speak('es')">🔈 ES 🇲🇽</button>
+      <button class="tool-btn" id="rec-es" onclick="startRecording('es')">🎙️</button>
+      <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>▶️</button>
     </div>
     <div class="lang-column">
-      <button class="lang-btn lang-btn-en" onclick="speak('en')">
-        <span>🇺🇸 EN</span><span>🔊</span>
-      </button>
-      <div class="record-tools-stack">
-        <button class="tool-btn" id="rec-en" onclick="startRecording('en')">🎙️</button>
-        <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>▶️</button>
-      </div>
+      <button class="lang-btn lang-btn-en" onclick="speak('en')">🔈 EN 🇺🇸</button>
+      <button class="tool-btn" id="rec-en" onclick="startRecording('en')">🎙️</button>
+      <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>▶️</button>
     </div>
   </div>
 
-  <button class="next-btn" onclick="nextNumber()">SORTEAR OUTRO ➔</button>
+  <div class="footer-nav">
+    <button class="nav-arrow-btn" id="btnPrev" onclick="prevNumber()" disabled>←</button>
+    <button class="next-btn" id="btnNext" onclick="nextNumber()" disabled>PRÓXIMO ➔</button>
+  </div>
 </div>
 
-<script>
-  let currentNum = 0;
-  let mediaRecorder;
-  let audioChunks = { pt: null, es: null, en: null };
+<div class="version-footer">v1.3.1 - Estável (Números)</div>
 
-  // Fundo
-  const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 50; i++) {
+<script>
+  // Gera lista de 0 a 100
+  let allNumbers = [];
+  for(let i=0; i<=100; i++) {
+    allNumbers.push({ val: i, bg: `hsl(${i * 3.6}, 70%, 30%)` });
+  }
+
+  let queue = [...allNumbers];
+  let history = [];
+  let currentObj = null;
+  let audioChunks = { pt: null, es: null, en: null };
+  let isLocked = true;
+
+  function toggleLock() {
+    isLocked = !isLocked;
+    document.getElementById('lockBtn').textContent = isLocked ? '🔒' : '🔓';
+    checkRequirements();
+  }
+
+  function checkRequirements() {
+    const hasAll = audioChunks.pt && audioChunks.es && audioChunks.en;
+    document.getElementById('btnNext').disabled = isLocked && !hasAll;
+    document.getElementById('counterUI').textContent = `Faltam ${queue.length} números`;
+  }
+
+  function displayNum(obj) {
+    currentObj = obj;
+    document.getElementById('numVal').textContent = obj.val;
+    document.getElementById('card').style.background = `linear-gradient(135deg, ${obj.bg}, #0b1a30)`;
+    
+    ['pt', 'es', 'en'].forEach(l => {
+        audioChunks[l] = null;
+        document.getElementById(`play-${l}`).disabled = true;
+        document.getElementById(`rec-${l}`).classList.remove('has-audio', 'recording');
+    });
+    
+    document.getElementById('btnPrev').disabled = history.length === 0;
+    checkRequirements();
+    window.speechSynthesis.cancel();
+  }
+
+  function nextNumber() {
+    if (currentObj) history.push(currentObj);
+    if (queue.length === 0) queue = [...allNumbers];
+    const randomIndex = Math.floor(Math.random() * queue.length);
+    displayNum(queue.splice(randomIndex, 1)[0]);
+  }
+
+  function prevNumber() {
+    if (history.length > 0) {
+      const prev = history.pop();
+      queue.push(currentObj);
+      displayNum(prev);
+    }
+  }
+
+  async function startRecording(lang) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
+      const mr = new MediaRecorder(stream, { mimeType });
+      let chunks = [];
+      const btn = document.getElementById(`rec-${lang}`);
+      
+      btn.classList.remove('has-audio');
+      btn.classList.add('recording');
+
+      mr.ondataavailable = (e) => chunks.push(e.data);
+      mr.onstop = () => {
+        audioChunks[lang] = URL.createObjectURL(new Blob(chunks, { type: mimeType }));
+        document.getElementById(`play-${lang}`).disabled = false;
+        btn.classList.remove('recording');
+        btn.classList.add('has-audio');
+        stream.getTracks().forEach(track => track.stop());
+        checkRequirements();
+      };
+      mr.start();
+      setTimeout(() => { if(mr.state === "recording") mr.stop(); }, 3000);
+    } catch (err) { alert("Ative o microfone!"); }
+  }
+
+  function speak(langCode) {
+    window.speechSynthesis.cancel();
+    const text = currentObj.val.toString();
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voiceLang = langCode === 'pt' ? 'pt-BR' : (langCode === 'es' ? 'es-MX' : 'en-US');
+    utterance.lang = voiceLang;
+    if (langCode === 'en') utterance.rate = 0.7; // Pronúncia mais lenta
+    else utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function playRecording(lang) {
+    if (audioChunks[lang]) new Audio(audioChunks[lang]).play();
+  }
+
+  // Estrelas
+  const sc = document.getElementById('stars');
+  for (let i = 0; i < 40; i++) {
     const s = document.createElement('div');
     s.className = 'star';
     s.style.width = s.style.height = (Math.random() * 3) + 'px';
     s.style.left = Math.random() * 100 + '%';
     s.style.top = Math.random() * 100 + '%';
     s.style.setProperty('--d', (Math.random() * 3 + 1) + 's');
-    starsContainer.appendChild(s);
+    sc.appendChild(s);
   }
 
-  function startGame() {
-    document.getElementById('menuScreen').classList.add('hidden');
-    document.getElementById('gameScreen').classList.remove('hidden');
-    nextNumber();
-  }
-
-  function nextNumber() {
-    currentNum = Math.floor(Math.random() * 101);
-    document.getElementById('numVal').textContent = currentNum;
-    ['pt', 'es', 'en'].forEach(l => {
-        audioChunks[l] = null;
-        document.getElementById(`play-${l}`).disabled = true;
-    });
-    const colors = [['#2d004f','#6600aa'], ['#003a6e','#0066cc'], ['#004a1f','#008833'], ['#5c0000','#cc0000']];
-    const pick = colors[Math.floor(Math.random()*colors.length)];
-    document.getElementById('card').style.background = `linear-gradient(135deg, ${pick[0]}, ${pick[1]})`;
-  }
-
-  function speak(langCode) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(currentNum.toString());
-    if (langCode === 'pt') { utterance.lang = 'pt-BR'; utterance.rate = 0.9; }
-    else if (langCode === 'es') { 
-        utterance.lang = 'es-MX'; 
-        const v = window.speechSynthesis.getVoices().find(v => v.lang.includes('MX'));
-        if(v) utterance.voice = v;
-        utterance.rate = 0.9; 
-    }
-    else { utterance.lang = 'en-US'; utterance.rate = 0.6; }
-    window.speechSynthesis.speak(utterance);
-  }
-
-  // GRAVAÇÃO CORRIGIDA
-  async function startRecording(lang) {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      
-      // Detecta formato suportado (Essencial para iPhone/Android)
-      const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
-      
-      mediaRecorder = new MediaRecorder(stream, { mimeType });
-      let localChunks = [];
-
-      const btn = document.getElementById(`rec-${lang}`);
-      btn.classList.add('recording');
-
-      mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) localChunks.push(e.data); };
-      
-      mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(localChunks, { type: mimeType });
-        audioChunks[lang] = URL.createObjectURL(audioBlob);
-        document.getElementById(`play-${lang}`).disabled = false;
-        btn.classList.remove('recording');
-        stream.getTracks().forEach(track => track.stop());
-      };
-
-      mediaRecorder.start();
-      setTimeout(() => { if(mediaRecorder.state === "recording") mediaRecorder.stop(); }, 3000);
-      
-    } catch (err) {
-      alert("Microfone não disponível!");
-    }
-  }
-
-  function playRecording(lang) {
-    if (audioChunks[lang]) {
-      const audio = new Audio(audioChunks[lang]);
-      audio.play().catch(e => console.error("Erro ao tocar:", e));
-    }
-  }
-
-  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+  // Início
+  window.speechSynthesis.onvoiceschanged = () => { if(!currentObj) nextNumber(); };
+  if(window.speechSynthesis.getVoices().length > 0) nextNumber();
 </script>
-
 </body>
 </html>
