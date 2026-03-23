@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safari da Pronúncia v4</title>
+<title>Safari da Pronúncia v5</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,22 +13,21 @@
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  .nav-header { position: absolute; top: 15px; left: 15px; z-index: 10; }
+  .nav-header { position: absolute; top: 15px; left: 15px; z-index: 10; display: flex; align-items: center; gap: 15px; }
   .btn-back { text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 15px; color: white; font-weight: bold; font-size: 0.8rem; }
+  .counter { color: #a3ffac; font-size: 0.9rem; font-weight: bold; text-shadow: 0 0 10px rgba(163, 255, 172, 0.4); }
 
   .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 8px; }
-  
-  .counter { color: #a3ffac; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; }
 
   .card { 
     width: min(300px, 85vw); aspect-ratio: 1; border-radius: 45px; 
     display: flex; align-items: center; justify-content: center; 
     border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; 
-    margin-bottom: 10px; position: relative;
+    margin-bottom: 10px; position: relative; overflow: hidden;
   }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   
-  .animal-emoji { font-size: 160px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
+  .animal-emoji { font-size: 160px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); line-height: 1; }
 
   .lang-container { display: flex; gap: 8px; width: 100%; max-width: 480px; justify-content: center; align-items: flex-end; }
   .lang-column { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
@@ -40,7 +39,8 @@
     line-height: 1.1;
   }
 
-  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  /* Botões de Ouvir no novo padrão solicitado */
+  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 4px; }
   .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
   .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
   .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
@@ -58,11 +58,12 @@
 <body>
 
 <div class="stars" id="stars"></div>
-<div class="nav-header"><a href="index.html" class="btn-back">🏠 MENU</a></div>
+<div class="nav-header">
+  <a href="index.html" class="btn-back">🏠 MENU</a>
+  <div class="counter" id="counterUI">65 animais restantes</div>
+</div>
 
 <div class="screen">
-  <div class="counter" id="counterUI">Safari de Pronúncia</div>
-  
   <div class="card" id="card">
     <div class="animal-emoji" id="animalEmoji">🐾</div>
   </div>
@@ -70,19 +71,19 @@
   <div class="lang-container">
     <div class="lang-column">
       <div class="animal-name-label" id="label-pt">-</div>
-      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🇧🇷 PT 🔊</button>
+      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🔈 PT 🇧🇷</button>
       <button class="tool-btn" id="rec-pt" onclick="startRecording('pt')">🎙️</button>
       <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>▶️</button>
     </div>
     <div class="lang-column">
       <div class="animal-name-label" id="label-es">-</div>
-      <button class="lang-btn lang-btn-es" onclick="speak('es')">🇲🇽 MX 🔊</button>
+      <button class="lang-btn lang-btn-es" onclick="speak('es')">🔈 ES 🇲🇽</button>
       <button class="tool-btn" id="rec-es" onclick="startRecording('es')">🎙️</button>
       <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>▶️</button>
     </div>
     <div class="lang-column">
       <div class="animal-name-label" id="label-en">-</div>
-      <button class="lang-btn lang-btn-en" onclick="speak('en')">🇺🇸 EN 🔊</button>
+      <button class="lang-btn lang-btn-en" onclick="speak('en')">🔈 EN 🇺🇸</button>
       <button class="tool-btn" id="rec-en" onclick="startRecording('en')">🎙️</button>
       <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>▶️</button>
     </div>
@@ -148,15 +149,13 @@
     { pt: "Peru", en: "Turkey", es: "Pavo", emoji: "🦃", bg: "#a04000" },
     { pt: "Pato", en: "Duck", es: "Pato", emoji: "🦆", bg: "#2ecc71" },
     { pt: "Cisne", en: "Swan", es: "Cisne", emoji: "🦢", bg: "#fdfefe" },
-    { pt: "Coruja", en: "Owl", es: "Búho", emoji: "🦉", bg: "#4a235a" },
     { pt: "Dodo", en: "Dodo", es: "Dodo", emoji: "🦤", bg: "#95a5a6" },
     { pt: "Foca", en: "Seal", es: "Foca", emoji: "🦭", bg: "#85929e" },
     { pt: "Peixe-Tropical", en: "Tropical Fish", es: "Pez Tropical", emoji: "🐠", bg: "#f39c12" },
     { pt: "Joaninha", en: "Ladybug", es: "Mariquita", emoji: "🐞", bg: "#c0392b" },
     { pt: "Grilo", en: "Cricket", es: "Grillo", emoji: "🦗", bg: "#196f3d" },
     { pt: "Formiga", en: "Ant", es: "Hormiga", emoji: "🐜", bg: "#42210b" },
-    { pt: "Escorpião", en: "Scorpion", es: "Escorpión", emoji: "🦂", bg: "#6e2c00" },
-    { pt: "Dinossauro", en: "T-Rex", es: "Tiranosaurio", emoji: "Rex 🦖", bg: "#1e8449" },
+    { pt: "Dinossauro", en: "T-Rex", es: "Tiranosaurio", emoji: "🦖", bg: "#1e8449" },
     { pt: "Unicórnio", en: "Unicorn", es: "Unicornio", emoji: "🦄", bg: "#af7ac5" }
   ];
 
@@ -165,22 +164,20 @@
   let audioChunks = { pt: null, es: null, en: null };
 
   function nextAnimal() {
-    // Se a fila esvaziar, repõe todos os animais
     if (queue.length === 0) queue = [...allAnimals];
     
-    // Sorteia um da fila
     const randomIndex = Math.floor(Math.random() * queue.length);
     currentAnimal = queue.splice(randomIndex, 1)[0];
     
-    // Atualiza Interface
     document.getElementById('animalEmoji').textContent = currentAnimal.emoji;
     document.getElementById('label-pt').textContent = currentAnimal.pt;
     document.getElementById('label-es').textContent = currentAnimal.es;
     document.getElementById('label-en').textContent = currentAnimal.en;
     document.getElementById('card').style.background = `linear-gradient(135deg, ${currentAnimal.bg}, #0b1a30)`;
-    document.getElementById('counterUI').textContent = `Fila: ${queue.length} animais restantes`;
     
-    // Limpa áudios gravados
+    // Contador limpo (apenas número)
+    document.getElementById('counterUI').textContent = `${queue.length} animais restantes`;
+    
     ['pt', 'es', 'en'].forEach(l => {
         audioChunks[l] = null;
         document.getElementById(`play-${l}`).disabled = true;
@@ -190,7 +187,6 @@
 
   function getMaleVoice(lang) {
     const voices = window.speechSynthesis.getVoices();
-    // Prioriza vozes conhecidas por serem masculinas nos sistemas (Daniel, Google pt-br, Ricardo, etc)
     return voices.find(v => v.lang.includes(lang) && 
       (v.name.toLowerCase().includes('male') || 
        v.name.toLowerCase().includes('daniel') || 
@@ -203,13 +199,10 @@
     window.speechSynthesis.cancel();
     const text = langCode === 'pt' ? currentAnimal.pt : (langCode === 'es' ? currentAnimal.es : currentAnimal.en);
     const utterance = new SpeechSynthesisUtterance(text);
-    
     const voiceLang = langCode === 'pt' ? 'pt-BR' : (langCode === 'es' ? 'es-MX' : 'en-US');
     utterance.voice = getMaleVoice(voiceLang);
     utterance.lang = voiceLang;
-    
-    if (langCode === 'en') utterance.rate = 0.7; // Velocidade mais lenta para Inglês
-
+    if (langCode === 'en') utterance.rate = 0.7;
     window.speechSynthesis.speak(utterance);
   }
 
@@ -220,29 +213,23 @@
       const mr = new MediaRecorder(stream, { mimeType });
       let chunks = [];
       const btn = document.getElementById(`rec-${lang}`);
-      
       btn.classList.add('recording');
       mr.ondataavailable = (e) => chunks.push(e.data);
       mr.onstop = () => {
-        const blob = new Blob(chunks, { type: mimeType });
-        audioChunks[lang] = URL.createObjectURL(blob);
+        audioChunks[lang] = URL.createObjectURL(new Blob(chunks, { type: mimeType }));
         document.getElementById(`play-${lang}`).disabled = false;
         btn.classList.remove('recording');
         stream.getTracks().forEach(track => track.stop());
       };
       mr.start();
       setTimeout(() => { if(mr.state === "recording") mr.stop(); }, 3000);
-    } catch (err) { alert("Ative o microfone para gravar sua voz!"); }
+    } catch (err) { alert("Ative o microfone!"); }
   }
 
   function playRecording(lang) {
-    if (audioChunks[lang]) {
-      const audio = new Audio(audioChunks[lang]);
-      audio.play();
-    }
+    if (audioChunks[lang]) new Audio(audioChunks[lang]).play();
   }
 
-  // Estrelas de fundo
   const sc = document.getElementById('stars');
   for (let i = 0; i < 40; i++) {
     const s = document.createElement('div');
@@ -254,10 +241,8 @@
     sc.appendChild(s);
   }
 
-  // Inicialização
   window.speechSynthesis.onvoiceschanged = () => { if(!currentAnimal) nextAnimal(); };
   if(window.speechSynthesis.getVoices().length > 0) nextAnimal();
 </script>
-
 </body>
 </html>
