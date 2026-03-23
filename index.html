@@ -3,137 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Desafio dos Números!</title>
+<title>Mestre da Pronúncia!</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body {
-    background: #1a0533 !important;
-    min-height: 100vh;
-    font-family: 'Baloo 2', cursive;
-    overflow: hidden;
-    user-select: none;
-  }
-
-  /* Fundo Espacial */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 50%, #2d0a5e 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, #0a1a5e 0%, transparent 60%),
-      radial-gradient(ellipse at 60% 80%, #5e0a2d 0%, transparent 50%);
-    z-index: 0;
-  }
-
-  .stars { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+  html, body { background: #1a0533; min-height: 100vh; font-family: 'Baloo 2', cursive; overflow-x: hidden; user-select: none; }
+  
+  .stars { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  /* Telas */
-  .screen {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-    gap: 20px;
-    transition: transform 0.5s ease-in-out, opacity 0.5s;
-  }
+  .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 15px; }
+  .hidden { display: none !important; }
 
-  .hidden { display: none !important; opacity: 0; }
+  /* Título e Card */
+  .menu-title { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: #ffe066; text-align: center; text-shadow: 0 4px 0 #b37700; }
+  .btn-start { padding: 18px 45px; font-size: 1.6rem; font-family: 'Fredoka One', cursive; background: #ff9900; color: #fff; border: 5px solid #fff; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 0 #cc7700; transition: 0.2s; }
+  .btn-start:active { transform: translateY(5px); box-shadow: 0 3px 0 #cc7700; }
 
-  /* Tela Inicial */
-  .menu-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(2rem, 8vw, 3.5rem);
-    color: #ffe066;
-    text-align: center;
-    text-shadow: 0 0 30px #ffb700, 0 5px 0 #b37700;
-    margin-bottom: 20px;
-  }
+  .card { width: min(280px, 80vw); aspect-ratio: 1; border-radius: 35px; display: flex; align-items: center; justify-content: center; border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  .number-display { font-family: 'Fredoka One', cursive; font-size: 110px; color: #fff; text-shadow: 0 0 25px rgba(255,255,255,0.4); }
 
-  .btn-start {
-    padding: 20px 50px;
-    font-size: 1.8rem;
-    font-family: 'Fredoka One', cursive;
-    background: linear-gradient(135deg, #ffcc00, #ff9900);
-    color: #fff;
-    border: 6px solid #fff;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 10px 0 #cc7700, 0 20px 40px rgba(0,0,0,0.4);
-    transition: all 0.2s;
-  }
-  .btn-start:active { transform: translateY(8px); box-shadow: 0 2px 0 #cc7700; }
-
-  /* App Game */
-  .card {
-    width: min(320px, 85vw);
-    aspect-ratio: 1;
-    border-radius: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 6px solid rgba(255,255,255,0.3);
-    animation: float 4s ease-in-out infinite;
-  }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-  .number-display {
-    font-family: 'Fredoka One', cursive;
-    font-size: 120px;
-    color: #fff;
-    text-shadow: 0 0 30px rgba(255,255,255,0.5);
-  }
-
-  .lang-buttons {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    max-width: 350px;
-  }
-
-  .lang-btn {
-    flex: 1;
-    padding: 10px;
-    border-radius: 15px;
-    border: none;
-    cursor: pointer;
-    font-family: 'Baloo 2', bold;
-    color: white;
-    font-weight: 800;
-  }
-
+  /* Grid de Línguas e Gravação */
+  .lang-container { display: flex; gap: 12px; width: 100%; max-width: 380px; justify-content: center; }
+  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+  
+  .lang-btn { width: 100%; padding: 12px; border-radius: 15px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.9rem; transition: 0.2s; }
   .lang-btn-pt { background: #009c3b; }
   .lang-btn-es { background: #d52b1e; }
   .lang-btn-en { background: #00247d; }
 
-  .next-btn {
-    margin-top: 10px;
-    padding: 15px 40px;
-    background: #ffe066;
-    border: none;
-    border-radius: 20px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
-    color: #5e3a00;
-    cursor: pointer;
-    box-shadow: 0 5px 0 #b37700;
-  }
-  .next-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #b37700; }
+  .record-tools { display: flex; gap: 5px; width: 100%; }
+  .tool-btn { flex: 1; padding: 8px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.2); color: white; font-size: 1.1rem; transition: 0.2s; }
+  .tool-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  
+  .recording { background: #ff4444 !important; animation: pulse-red 1s infinite; }
+  @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
-  .confetti-piece {
-    position: fixed; width: 10px; height: 10px; z-index: 20; animation: fall 2s forwards;
-  }
-  @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
-
+  .next-btn { margin-top: 15px; padding: 12px 35px; background: #ffe066; border: none; border-radius: 20px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #5e3a00; cursor: pointer; box-shadow: 0 5px 0 #b37700; }
+  .next-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #b37700; }
 </style>
 </head>
 <body>
@@ -141,29 +50,46 @@
 <div class="stars" id="stars"></div>
 
 <div class="screen" id="menuScreen">
-  <div class="menu-title">🚀 Mestre dos Números!</div>
-  <button class="btn-start" onclick="startGame()">JOGAR!</button>
+  <div class="menu-title">🎤 Treino de Pronúncia!</div>
+  <button class="btn-start" onclick="startGame()">VAMOS LÁ!</button>
 </div>
 
 <div class="screen hidden" id="gameScreen">
-  <div class="card" id="card">
-    <div class="number-display" id="numVal">0</div>
+  <div class="card" id="card"><div class="number-display" id="numVal">0</div></div>
+
+  <div class="lang-container">
+    <div class="lang-column">
+      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🇧🇷 PT</button>
+      <div class="record-tools">
+        <button class="tool-btn" id="rec-pt" onclick="startRecording('pt')">🎙️</button>
+        <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>⏵</button>
+      </div>
+    </div>
+    <div class="lang-column">
+      <button class="lang-btn lang-btn-es" onclick="speak('es')">🇲🇽 MX</button>
+      <div class="record-tools">
+        <button class="tool-btn" id="rec-es" onclick="startRecording('es')">🎙️</button>
+        <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>⏵</button>
+      </div>
+    </div>
+    <div class="lang-column">
+      <button class="lang-btn lang-btn-en" onclick="speak('en')">🇺🇸 EN</button>
+      <div class="record-tools">
+        <button class="tool-btn" id="rec-en" onclick="startRecording('en')">🎙️</button>
+        <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>⏵</button>
+      </div>
+    </div>
   </div>
 
-  <div style="color: #fff; font-weight: 700; opacity: 0.8;">Ouvir em:</div>
-  <div class="lang-buttons">
-    <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🇧🇷 PT</button>
-    <button class="lang-btn lang-btn-es" onclick="speak('es')">🇲🇽 MX</button>
-    <button class="lang-btn lang-btn-en" onclick="speak('en')">🇺🇸 EN</button>
-  </div>
-
-  <button class="next-btn" onclick="nextNumber()">PRÓXIMO NÚMERO ➔</button>
+  <button class="next-btn" onclick="nextNumber()">SORTEAR OUTRO ➔</button>
 </div>
 
 <script>
   let currentNum = 0;
+  let mediaRecorder;
+  let audioChunks = { pt: null, es: null, en: null };
 
-  // Gerar Estrelas
+  // Inicializar estrelas
   const starsContainer = document.getElementById('stars');
   for (let i = 0; i < 50; i++) {
     const s = document.createElement('div');
@@ -183,58 +109,73 @@
 
   function nextNumber() {
     currentNum = Math.floor(Math.random() * 101);
-    const display = document.getElementById('numVal');
-    display.textContent = currentNum;
+    document.getElementById('numVal').textContent = currentNum;
+    // Resetar botões de áudio
+    ['pt', 'es', 'en'].forEach(lang => {
+      audioChunks[lang] = null;
+      document.getElementById(`play-${lang}`).disabled = true;
+    });
     
-    // Animação de entrada
-    display.style.animation = 'none';
-    void display.offsetWidth;
-    display.style.animation = 'pop 0.4s cubic-bezier(0.34,1.56,0.64,1)';
-    
-    // Mudar cor do card aleatoriamente
     const colors = [['#2d004f','#6600aa'], ['#003a6e','#0066cc'], ['#004a1f','#008833'], ['#5c0000','#cc0000']];
     const pick = colors[Math.floor(Math.random()*colors.length)];
     document.getElementById('card').style.background = `linear-gradient(135deg, ${pick[0]}, ${pick[1]})`;
-    
-    confetti();
   }
 
   function speak(langCode) {
-    if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
-
-    const voices = window.speechSynthesis.getVoices();
     const utterance = new SpeechSynthesisUtterance(currentNum.toString());
-    
-    // Configurações por língua
+    const voices = window.speechSynthesis.getVoices();
+
     if (langCode === 'pt') {
       utterance.lang = 'pt-BR';
+      utterance.rate = 0.85;
     } else if (langCode === 'es') {
-      // Tenta forçar espanhol do México (es-MX)
       utterance.lang = 'es-MX';
-      const mxVoice = voices.find(v => v.lang.includes('MX') || v.name.includes('Mexico'));
+      const mxVoice = voices.find(v => v.lang.includes('MX'));
       if (mxVoice) utterance.voice = mxVoice;
+      utterance.rate = 0.85;
     } else if (langCode === 'en') {
       utterance.lang = 'en-US';
+      utterance.rate = 0.60; // VELOCIDADE REDUZIDA AQUI
     }
-
-    utterance.rate = 0.85; // Um pouco mais devagar para clareza
     window.speechSynthesis.speak(utterance);
   }
 
-  function confetti() {
-    for (let i = 0; i < 15; i++) {
-      const p = document.createElement('div');
-      p.className = 'confetti-piece';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.top = '-10px';
-      p.style.backgroundColor = ['#ff0', '#f0f', '#0ff', '#fff'][Math.floor(Math.random()*4)];
-      document.body.appendChild(p);
-      setTimeout(() => p.remove(), 2000);
+  // LÓGICA DE GRAVAÇÃO
+  async function startRecording(lang) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      let chunks = [];
+
+      const btn = document.getElementById(`rec-${lang}`);
+      btn.classList.add('recording');
+
+      mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+        audioChunks[lang] = URL.createObjectURL(blob);
+        document.getElementById(`play-${lang}`).disabled = false;
+        btn.classList.remove('recording');
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      mediaRecorder.start();
+      // Para automaticamente após 3 segundos
+      setTimeout(() => { if(mediaRecorder.state === "recording") mediaRecorder.stop(); }, 3000);
+      
+    } catch (err) {
+      alert("Para gravar, você precisa permitir o uso do microfone!");
     }
   }
 
-  // Inicializa vozes
+  function playRecording(lang) {
+    if (audioChunks[lang]) {
+      const audio = new Audio(audioChunks[lang]);
+      audio.play();
+    }
+  }
+
   window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 </script>
 
