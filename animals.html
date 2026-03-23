@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safari da Pronúncia v7</title>
+<title>Safari da Pronúncia v8</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,24 +13,29 @@
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  /* Cabeçalho Melhorado */
+  /* Cabeçalho */
   .nav-header { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
   
+  /* Botão MENU Estilizado (Azul Claro) */
   .btn-back-menu { 
-    text-decoration: none; background: rgba(255,255,255,0.15); padding: 8px 18px; 
-    border-radius: 20px; color: white; font-weight: 800; font-size: 0.75rem; 
-    border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 5px;
+    text-decoration: none; 
+    background: linear-gradient(135deg, #4dabf7, #228be6); 
+    padding: 10px 22px; 
+    border-radius: 15px; 
+    color: white; 
+    font-weight: 800; 
+    font-size: 0.85rem; 
+    letter-spacing: 1px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(34, 139, 230, 0.4);
+    transition: transform 0.2s;
+    display: block;
   }
+  .btn-back-menu:active { transform: scale(0.95); }
 
-  .parent-lock { 
-    background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; 
-    padding: 5px; opacity: 0.8; transition: 0.3s;
-  }
+  .parent-lock { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 5px; opacity: 0.8; }
 
-  .counter { 
-    color: #a3ffac; font-size: 0.85rem; font-weight: bold; position: absolute; 
-    top: 55px; width: 100%; text-align: center; pointer-events: none; 
-  }
+  .counter { color: #a3ffac; font-size: 0.85rem; font-weight: bold; position: absolute; top: 65px; width: 100%; text-align: center; pointer-events: none; }
 
   .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 8px; }
 
@@ -53,27 +58,29 @@
     text-align: center; min-height: 2.4em; display: flex; align-items: center; width: 100%; justify-content: center;
   }
 
+  /* Botões de Língua */
   .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; color: white; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 4px; }
   .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
   .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
   .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
-  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; transition: 0.3s; }
-  .tool-btn.has-audio { background: #a3ffac !important; color: #0b1a30; }
-  .tool-btn:disabled { opacity: 0.1; }
+  /* Botões de Ferramenta */
+  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; transition: 0.2s; }
   
-  .recording { background: #ff4444 !important; animation: pulse 1s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+  /* ESTADO: Gravado (Verde) */
+  .tool-btn.has-audio { background: #a3ffac !important; color: #0b1a30; }
+  
+  /* ESTADO: Gravando (Vermelho Piscante) - Tem prioridade sobre o verde */
+  .tool-btn.recording { background: #ff4444 !important; color: white !important; animation: pulse 0.8s infinite !important; }
+  
+  @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
 
-  /* Rodapé com Navegação */
+  .tool-btn:disabled { opacity: 0.1; }
+
+  /* Rodapé */
   .footer-nav { display: flex; align-items: center; gap: 15px; margin-top: 15px; }
-
-  .nav-arrow-btn { 
-    background: rgba(255,255,255,0.2); border: none; border-radius: 50%; 
-    width: 50px; height: 50px; color: white; font-size: 1.5rem; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: 0.2s;
-  }
-  .nav-arrow-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+  .nav-arrow-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .nav-arrow-btn:disabled { opacity: 0.2; }
 
   .next-btn { 
     padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; 
@@ -88,11 +95,11 @@
 <div class="stars" id="stars"></div>
 
 <div class="nav-header">
-  <a href="index.html" class="btn-back-menu">← VOLTAR</a>
+  <a href="index.html" class="btn-back-menu">MENU</a>
   <button class="parent-lock" id="lockBtn" onclick="toggleLock()">🔒</button>
 </div>
 
-<div class="counter" id="counterUI">65 animais restantes</div>
+<div class="counter" id="counterUI">Calculando animais...</div>
 
 <div class="screen">
   <div class="card" id="card">
@@ -127,7 +134,7 @@
 </div>
 
 <script>
-  // ... (Lista de 65 animais igual à anterior)
+  // ... (A lista de animais permanece a mesma da v7)
   const allAnimals = [
     { pt: "Leão", en: "Lion", es: "León", emoji: "🦁", bg: "#d4a017" },
     { pt: "Elefante", en: "Elephant", es: "Elefante", emoji: "🐘", bg: "#808b96" },
@@ -196,7 +203,7 @@
   ];
 
   let queue = [...allAnimals];
-  let history = []; // Pilha para voltar animais
+  let history = [];
   let currentAnimal = null;
   let audioChunks = { pt: null, es: null, en: null };
   let isLocked = true;
@@ -221,11 +228,10 @@
     document.getElementById('label-en').textContent = animal.en;
     document.getElementById('card').style.background = `linear-gradient(135deg, ${animal.bg}, #0b1a30)`;
     
-    // Reset de áudios
     ['pt', 'es', 'en'].forEach(l => {
         audioChunks[l] = null;
         document.getElementById(`play-${l}`).disabled = true;
-        document.getElementById(`rec-${l}`).classList.remove('has-audio');
+        document.getElementById(`rec-${l}`).classList.remove('has-audio', 'recording');
     });
     
     document.getElementById('btnPrev').disabled = history.length === 0;
@@ -236,35 +242,16 @@
   function nextAnimal() {
     if (currentAnimal) history.push(currentAnimal);
     if (queue.length === 0) queue = [...allAnimals];
-    
     const randomIndex = Math.floor(Math.random() * queue.length);
-    const selected = queue.splice(randomIndex, 1)[0];
-    displayAnimal(selected);
+    displayAnimal(queue.splice(randomIndex, 1)[0]);
   }
 
   function prevAnimal() {
     if (history.length > 0) {
       const prev = history.pop();
-      queue.push(currentAnimal); // Devolve o atual pra fila
+      queue.push(currentAnimal);
       displayAnimal(prev);
     }
-  }
-
-  // ... (Sistemas de Voz e Gravação idênticos ao v6)
-  function getMaleVoice(lang) {
-    const voices = window.speechSynthesis.getVoices();
-    return voices.find(v => v.lang.includes(lang) && (v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('daniel'))) || voices.find(v => v.lang.includes(lang));
-  }
-
-  function speak(langCode) {
-    window.speechSynthesis.cancel();
-    const text = currentAnimal[langCode];
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voiceLang = langCode === 'pt' ? 'pt-BR' : (langCode === 'es' ? 'es-MX' : 'en-US');
-    utterance.voice = getMaleVoice(voiceLang);
-    utterance.lang = voiceLang;
-    if (langCode === 'en') utterance.rate = 0.7;
-    window.speechSynthesis.speak(utterance);
   }
 
   async function startRecording(lang) {
@@ -274,19 +261,38 @@
       const mr = new MediaRecorder(stream, { mimeType });
       let chunks = [];
       const btn = document.getElementById(`rec-${lang}`);
+      
+      // LOGICA DE CORES: Remove o verde e força o vermelho piscante na hora!
+      btn.classList.remove('has-audio');
       btn.classList.add('recording');
+
       mr.ondataavailable = (e) => chunks.push(e.data);
       mr.onstop = () => {
         audioChunks[lang] = URL.createObjectURL(new Blob(chunks, { type: mimeType }));
         document.getElementById(`play-${lang}`).disabled = false;
-        btn.classList.remove('recording');
-        btn.classList.add('has-audio');
+        
+        btn.classList.remove('recording'); // Para de piscar
+        btn.classList.add('has-audio');    // Fica verde
+        
         stream.getTracks().forEach(track => track.stop());
         checkRequirements();
       };
       mr.start();
       setTimeout(() => { if(mr.state === "recording") mr.stop(); }, 3000);
     } catch (err) { alert("Ative o microfone!"); }
+  }
+
+  // Funções de Voz e Reprodução
+  function speak(langCode) {
+    window.speechSynthesis.cancel();
+    const text = currentAnimal[langCode];
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voiceLang = langCode === 'pt' ? 'pt-BR' : (langCode === 'es' ? 'es-MX' : 'en-US');
+    const voices = window.speechSynthesis.getVoices();
+    utterance.voice = voices.find(v => v.lang.includes(voiceLang) && (v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('daniel'))) || voices.find(v => v.lang.includes(voiceLang));
+    utterance.lang = voiceLang;
+    if (langCode === 'en') utterance.rate = 0.7;
+    window.speechSynthesis.speak(utterance);
   }
 
   function playRecording(lang) {
