@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safari da Pronúncia v5</title>
+<title>Safari da Pronúncia v6</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,21 +13,25 @@
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  .nav-header { position: absolute; top: 15px; left: 15px; z-index: 10; display: flex; align-items: center; gap: 15px; }
+  .nav-header { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
   .btn-back { text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 15px; color: white; font-weight: bold; font-size: 0.8rem; }
-  .counter { color: #a3ffac; font-size: 0.9rem; font-weight: bold; text-shadow: 0 0 10px rgba(163, 255, 172, 0.4); }
+  
+  /* Botão de Controle do Pai */
+  .parent-control { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+  .counter { color: #a3ffac; font-size: 0.8rem; font-weight: bold; text-align: center; width: 100%; position: absolute; top: 50px; left: 0; pointer-events: none; }
 
   .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 8px; }
 
   .card { 
-    width: min(300px, 85vw); aspect-ratio: 1; border-radius: 45px; 
+    width: min(280px, 80vw); aspect-ratio: 1; border-radius: 45px; 
     display: flex; align-items: center; justify-content: center; 
     border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; 
-    margin-bottom: 10px; position: relative; overflow: hidden;
+    margin-bottom: 5px; position: relative;
   }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   
-  .animal-emoji { font-size: 160px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); line-height: 1; }
+  .animal-emoji { font-size: 150px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); line-height: 1; }
 
   .lang-container { display: flex; gap: 8px; width: 100%; max-width: 480px; justify-content: center; align-items: flex-end; }
   .lang-column { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
@@ -36,32 +40,41 @@
     color: #fff; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
     background: rgba(0,0,0,0.5); padding: 4px 6px; border-radius: 8px;
     text-align: center; min-height: 2.4em; display: flex; align-items: center; width: 100%; justify-content: center;
-    line-height: 1.1;
   }
 
-  /* Botões de Ouvir no novo padrão solicitado */
-  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; color: white; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 4px; }
   .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
   .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
   .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
-  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; }
+  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; transition: 0.3s; }
+  .tool-btn.has-audio { background: #a3ffac !important; color: #0b1a30; }
   .tool-btn:disabled { opacity: 0.1; }
   
   .recording { background: #ff4444 !important; animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  .next-btn { margin-top: 15px; padding: 15px 45px; background: #ffe066; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: #5e3a00; cursor: pointer; box-shadow: 0 6px 0 #b37700; transition: 0.2s; }
-  .next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b37700; }
+  .next-btn { 
+    margin-top: 15px; padding: 15px 45px; background: #ffe066; border: none; border-radius: 25px; 
+    font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: #5e3a00; cursor: pointer; 
+    box-shadow: 0 6px 0 #b37700; transition: 0.3s;
+  }
+  .next-btn:disabled { background: #555; color: #888; box-shadow: 0 6px 0 #333; opacity: 0.5; cursor: not-allowed; }
+  .next-btn:not(:disabled):active { transform: translateY(4px); box-shadow: 0 2px 0 #b37700; }
 </style>
 </head>
 <body>
 
 <div class="stars" id="stars"></div>
+
 <div class="nav-header">
   <a href="index.html" class="btn-back">🏠 MENU</a>
-  <div class="counter" id="counterUI">65 animais restantes</div>
+  <button class="parent-control" onclick="toggleLock()">
+    <span id="lockIcon">🔒</span> <span id="lockStatus">TRAVA ATIVA</span>
+  </button>
 </div>
+
+<div class="counter" id="counterUI">Carregando...</div>
 
 <div class="screen">
   <div class="card" id="card">
@@ -89,7 +102,7 @@
     </div>
   </div>
 
-  <button class="next-btn" onclick="nextAnimal()">PRÓXIMO ➔</button>
+  <button class="next-btn" id="btnNext" onclick="nextAnimal()" disabled>PRÓXIMO ➔</button>
 </div>
 
 <script>
@@ -155,6 +168,7 @@
     { pt: "Joaninha", en: "Ladybug", es: "Mariquita", emoji: "🐞", bg: "#c0392b" },
     { pt: "Grilo", en: "Cricket", es: "Grillo", emoji: "🦗", bg: "#196f3d" },
     { pt: "Formiga", en: "Ant", es: "Hormiga", emoji: "🐜", bg: "#42210b" },
+    { pt: "Escorpião", en: "Scorpion", es: "Escorpión", emoji: "🦂", bg: "#6e2c00" },
     { pt: "Dinossauro", en: "T-Rex", es: "Tiranosaurio", emoji: "🦖", bg: "#1e8449" },
     { pt: "Unicórnio", en: "Unicorn", es: "Unicornio", emoji: "🦄", bg: "#af7ac5" }
   ];
@@ -162,10 +176,31 @@
   let queue = [...allAnimals];
   let currentAnimal = null;
   let audioChunks = { pt: null, es: null, en: null };
+  let isLocked = true; // Estado da trava
+
+  function toggleLock() {
+    isLocked = !isLocked;
+    document.getElementById('lockIcon').textContent = isLocked ? '🔒' : '🔓';
+    document.getElementById('lockStatus').textContent = isLocked ? 'TRAVA ATIVA' : 'LIVRE';
+    checkRequirements();
+  }
+
+  function checkRequirements() {
+    const hasAllRecordings = audioChunks.pt && audioChunks.es && audioChunks.en;
+    const btn = document.getElementById('btnNext');
+    const counter = document.getElementById('counterUI');
+    
+    if (!isLocked || hasAllRecordings) {
+      btn.disabled = false;
+      counter.textContent = `${queue.length} animais restantes`;
+    } else {
+      btn.disabled = true;
+      counter.textContent = `Grave os 3 idiomas para liberar!`;
+    }
+  }
 
   function nextAnimal() {
     if (queue.length === 0) queue = [...allAnimals];
-    
     const randomIndex = Math.floor(Math.random() * queue.length);
     currentAnimal = queue.splice(randomIndex, 1)[0];
     
@@ -175,23 +210,21 @@
     document.getElementById('label-en').textContent = currentAnimal.en;
     document.getElementById('card').style.background = `linear-gradient(135deg, ${currentAnimal.bg}, #0b1a30)`;
     
-    // Contador limpo (apenas número)
-    document.getElementById('counterUI').textContent = `${queue.length} animais restantes`;
-    
+    // Reset de gravações e botões
     ['pt', 'es', 'en'].forEach(l => {
         audioChunks[l] = null;
         document.getElementById(`play-${l}`).disabled = true;
+        document.getElementById(`rec-${l}`).classList.remove('has-audio');
     });
+    
+    checkRequirements();
     window.speechSynthesis.cancel();
   }
 
   function getMaleVoice(lang) {
     const voices = window.speechSynthesis.getVoices();
     return voices.find(v => v.lang.includes(lang) && 
-      (v.name.toLowerCase().includes('male') || 
-       v.name.toLowerCase().includes('daniel') || 
-       v.name.toLowerCase().includes('ricardo') ||
-       v.name.toLowerCase().includes('google pt-br'))) || 
+      (v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('daniel') || v.name.toLowerCase().includes('google pt-br'))) || 
       voices.find(v => v.lang.includes(lang));
   }
 
@@ -213,13 +246,16 @@
       const mr = new MediaRecorder(stream, { mimeType });
       let chunks = [];
       const btn = document.getElementById(`rec-${lang}`);
+      
       btn.classList.add('recording');
       mr.ondataavailable = (e) => chunks.push(e.data);
       mr.onstop = () => {
         audioChunks[lang] = URL.createObjectURL(new Blob(chunks, { type: mimeType }));
         document.getElementById(`play-${lang}`).disabled = false;
         btn.classList.remove('recording');
+        btn.classList.add('has-audio'); // Marca que já gravou
         stream.getTracks().forEach(track => track.stop());
+        checkRequirements(); // Reavalia se pode liberar o botão Próximo
       };
       mr.start();
       setTimeout(() => { if(mr.state === "recording") mr.stop(); }, 3000);
