@@ -16,33 +16,32 @@
   .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 15px; }
   .hidden { display: none !important; }
 
-  /* Título e Card */
   .menu-title { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: #ffe066; text-align: center; text-shadow: 0 4px 0 #b37700; }
   .btn-start { padding: 18px 45px; font-size: 1.6rem; font-family: 'Fredoka One', cursive; background: #ff9900; color: #fff; border: 5px solid #fff; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 0 #cc7700; transition: 0.2s; }
-  .btn-start:active { transform: translateY(5px); box-shadow: 0 3px 0 #cc7700; }
 
-  .card { width: min(280px, 80vw); aspect-ratio: 1; border-radius: 35px; display: flex; align-items: center; justify-content: center; border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; }
+  .card { width: min(260px, 70vw); aspect-ratio: 1; border-radius: 35px; display: flex; align-items: center; justify-content: center; border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; margin-bottom: 10px; }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-  .number-display { font-family: 'Fredoka One', cursive; font-size: 110px; color: #fff; text-shadow: 0 0 25px rgba(255,255,255,0.4); }
+  .number-display { font-family: 'Fredoka One', cursive; font-size: clamp(80px, 20vw, 120px); color: #fff; text-shadow: 0 0 25px rgba(255,255,255,0.4); }
 
-  /* Grid de Línguas e Gravação */
-  .lang-container { display: flex; gap: 12px; width: 100%; max-width: 380px; justify-content: center; }
-  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+  /* Grid de Línguas Reorganizado */
+  .lang-container { display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; }
+  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 1; }
   
-  .lang-btn { width: 100%; padding: 12px; border-radius: 15px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.9rem; transition: 0.2s; }
-  .lang-btn-pt { background: #009c3b; }
-  .lang-btn-es { background: #d52b1e; }
-  .lang-btn-en { background: #00247d; }
+  .lang-btn { width: 100%; padding: 10px 5px; border-radius: 12px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
+  .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
+  .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
-  .record-tools { display: flex; gap: 5px; width: 100%; }
-  .tool-btn { flex: 1; padding: 8px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.2); color: white; font-size: 1.1rem; transition: 0.2s; }
-  .tool-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  /* Botões de ferramenta empilhados */
+  .record-tools-stack { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.2rem; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
+  .tool-btn:disabled { opacity: 0.2; cursor: not-allowed; }
   
-  .recording { background: #ff4444 !important; animation: pulse-red 1s infinite; }
+  .recording { background: #ff4444 !important; animation: pulse-red 1s infinite; box-shadow: 0 0 15px #ff4444; }
   @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
-  .next-btn { margin-top: 15px; padding: 12px 35px; background: #ffe066; border: none; border-radius: 20px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #5e3a00; cursor: pointer; box-shadow: 0 5px 0 #b37700; }
-  .next-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #b37700; }
+  .next-btn { margin-top: 20px; padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #5e3a00; cursor: pointer; box-shadow: 0 6px 0 #b37700; transition: 0.2s; }
+  .next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b37700; }
 </style>
 </head>
 <body>
@@ -50,8 +49,8 @@
 <div class="stars" id="stars"></div>
 
 <div class="screen" id="menuScreen">
-  <div class="menu-title">🎤 Treino de Pronúncia!</div>
-  <button class="btn-start" onclick="startGame()">VAMOS LÁ!</button>
+  <div class="menu-title">🚀 Mestre dos Números</div>
+  <button class="btn-start" onclick="startGame()">JOGAR!</button>
 </div>
 
 <div class="screen hidden" id="gameScreen">
@@ -59,24 +58,35 @@
 
   <div class="lang-container">
     <div class="lang-column">
-      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🇧🇷 PT</button>
-      <div class="record-tools">
+      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">
+        <span>🇧🇷 PT</span>
+        <span>🔊</span>
+      </button>
+      <div class="record-tools-stack">
         <button class="tool-btn" id="rec-pt" onclick="startRecording('pt')">🎙️</button>
-        <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>⏵</button>
+        <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>▶️</button>
       </div>
     </div>
+    
     <div class="lang-column">
-      <button class="lang-btn lang-btn-es" onclick="speak('es')">🇲🇽 MX</button>
-      <div class="record-tools">
+      <button class="lang-btn lang-btn-es" onclick="speak('es')">
+        <span>🇲🇽 MX</span>
+        <span>🔊</span>
+      </button>
+      <div class="record-tools-stack">
         <button class="tool-btn" id="rec-es" onclick="startRecording('es')">🎙️</button>
-        <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>⏵</button>
+        <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>▶️</button>
       </div>
     </div>
+    
     <div class="lang-column">
-      <button class="lang-btn lang-btn-en" onclick="speak('en')">🇺🇸 EN</button>
-      <div class="record-tools">
+      <button class="lang-btn lang-btn-en" onclick="speak('en')">
+        <span>🇺🇸 EN</span>
+        <span>🔊</span>
+      </button>
+      <div class="record-tools-stack">
         <button class="tool-btn" id="rec-en" onclick="startRecording('en')">🎙️</button>
-        <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>⏵</button>
+        <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>▶️</button>
       </div>
     </div>
   </div>
@@ -89,7 +99,7 @@
   let mediaRecorder;
   let audioChunks = { pt: null, es: null, en: null };
 
-  // Inicializar estrelas
+  // Estrelas de fundo
   const starsContainer = document.getElementById('stars');
   for (let i = 0; i < 50; i++) {
     const s = document.createElement('div');
@@ -110,7 +120,8 @@
   function nextNumber() {
     currentNum = Math.floor(Math.random() * 101);
     document.getElementById('numVal').textContent = currentNum;
-    // Resetar botões de áudio
+    
+    // Resetar botões
     ['pt', 'es', 'en'].forEach(lang => {
       audioChunks[lang] = null;
       document.getElementById(`play-${lang}`).disabled = true;
@@ -128,20 +139,19 @@
 
     if (langCode === 'pt') {
       utterance.lang = 'pt-BR';
-      utterance.rate = 0.85;
+      utterance.rate = 0.9;
     } else if (langCode === 'es') {
       utterance.lang = 'es-MX';
-      const mxVoice = voices.find(v => v.lang.includes('MX'));
+      const mxVoice = voices.find(v => v.lang.includes('MX') || v.name.includes('Mexico'));
       if (mxVoice) utterance.voice = mxVoice;
-      utterance.rate = 0.85;
+      utterance.rate = 0.9;
     } else if (langCode === 'en') {
       utterance.lang = 'en-US';
-      utterance.rate = 0.60; // VELOCIDADE REDUZIDA AQUI
+      utterance.rate = 0.6; // Inglês mais lento
     }
     window.speechSynthesis.speak(utterance);
   }
 
-  // LÓGICA DE GRAVAÇÃO
   async function startRecording(lang) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -153,7 +163,7 @@
 
       mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+        const blob = new Blob(chunks, { type: 'audio/webm' });
         audioChunks[lang] = URL.createObjectURL(blob);
         document.getElementById(`play-${lang}`).disabled = false;
         btn.classList.remove('recording');
@@ -161,11 +171,10 @@
       };
 
       mediaRecorder.start();
-      // Para automaticamente após 3 segundos
       setTimeout(() => { if(mediaRecorder.state === "recording") mediaRecorder.stop(); }, 3000);
       
     } catch (err) {
-      alert("Para gravar, você precisa permitir o uso do microfone!");
+      alert("Ative o microfone para praticar!");
     }
   }
 
@@ -176,6 +185,7 @@
     }
   }
 
+  // Garante carregamento das vozes
   window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 </script>
 
