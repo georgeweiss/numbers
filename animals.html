@@ -3,80 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mega Safari: 100 Animais!</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<title>Safari da Pronúncia</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: #0b1a30; min-height: 100vh; font-family: 'Baloo 2', cursive; overflow-x: hidden; user-select: none; }
   
-  .stars { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 15px; }
-  .hidden { display: none !important; }
+  .nav-header { position: absolute; top: 15px; left: 15px; z-index: 10; }
+  .btn-back { text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 15px; color: white; font-weight: bold; font-size: 0.9rem; }
 
-  .menu-title { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #a3ffac; text-align: center; text-shadow: 0 4px 0 #2d6a31; line-height: 1.2; }
-  .btn-start { padding: 18px 45px; font-size: 1.6rem; font-family: 'Fredoka One', cursive; background: #2ecc71; color: #fff; border: 5px solid #fff; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 0 #27ae60; transition: 0.2s; margin-top: 20px; }
+  .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 10px; }
+  
+  .counter { color: #a3ffac; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
 
-  .card { width: min(260px, 70vw); aspect-ratio: 1; border-radius: 35px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; margin-bottom: 10px; gap: 10px; position: relative; overflow: hidden; }
+  .card { 
+    width: min(280px, 80vw); aspect-ratio: 1; border-radius: 40px; 
+    display: flex; align-items: center; justify-content: center; 
+    border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; 
+    margin-bottom: 15px; position: relative;
+  }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   
-  .animal-emoji { font-size: 100px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.4)); z-index: 2; }
-  .animal-name-tag { color: white; font-weight: 800; font-size: 1.1rem; text-transform: uppercase; background: rgba(0,0,0,0.4); padding: 5px 15px; border-radius: 20px; z-index: 2; letter-spacing: 1px; }
+  .animal-emoji { font-size: 140px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
 
-  .lang-container { display: flex; gap: 10px; width: 100%; max-width: 450px; justify-content: center; }
-  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+  .lang-container { display: flex; gap: 10px; width: 100%; max-width: 450px; justify-content: center; align-items: flex-end; }
+  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
   
-  .lang-btn { width: 100%; padding: 10px 2px; border-radius: 12px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .animal-name-label { 
+    color: #fff; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
+    background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 10px;
+    text-align: center; min-height: 1.2rem; width: 90%;
+  }
+
+  .lang-btn { width: 100%; padding: 10px 2px; border-radius: 12px; border: none; cursor: pointer; color: white; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px; }
   .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
   .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
   .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
   .record-tools-stack { display: flex; flex-direction: column; gap: 5px; width: 100%; }
-  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-  .tool-btn:disabled { opacity: 0.1; cursor: not-allowed; }
+  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; }
+  .tool-btn:disabled { opacity: 0.1; }
   
-  .recording { background: #ff4444 !important; animation: pulse-red 1s infinite; box-shadow: 0 0 15px #ff4444; }
-  @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+  .recording { background: #ff4444 !important; animation: pulse-red 1s infinite; }
+  @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  .next-btn { margin-top: 15px; padding: 15px 35px; background: #ffe066; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #5e3a00; cursor: pointer; box-shadow: 0 6px 0 #b37700; }
-  .counter { color: #a3ffac; font-size: 0.9rem; font-weight: bold; margin-bottom: -10px; }
+  .next-btn { margin-top: 20px; padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #5e3a00; cursor: pointer; box-shadow: 0 6px 0 #b37700; }
 </style>
 </head>
 <body>
 
 <div class="stars" id="stars"></div>
+<div class="nav-header"><a href="index.html" class="btn-back">🏠 MENU</a></div>
 
-<div class="screen" id="menuScreen">
-  <div class="menu-title">🦁 MEGA SAFARI<br>100 ANIMAIS!</div>
-  <button class="btn-start" onclick="startGame()">COMEÇAR JORNADA</button>
-</div>
-
-<div class="screen hidden" id="gameScreen">
-  <div class="counter" id="counterUI">Animal 1 de 100</div>
+<div class="screen" id="gameScreen">
+  <div class="counter" id="counterUI">Safari de Pronúncia</div>
+  
   <div class="card" id="card">
     <div class="animal-emoji" id="animalEmoji">🦁</div>
-    <div class="animal-name-tag" id="animalLabel">LEÃO</div>
   </div>
 
   <div class="lang-container">
     <div class="lang-column">
-      <button class="lang-btn lang-btn-pt" onclick="speak('pt')"><span>🇧🇷 PT</span><span>🔊</span></button>
+      <div class="animal-name-label" id="label-pt">LEÃO</div>
+      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🇧🇷 PT 🔊</button>
       <div class="record-tools-stack">
         <button class="tool-btn" id="rec-pt" onclick="startRecording('pt')">🎙️</button>
         <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>▶️</button>
       </div>
     </div>
     <div class="lang-column">
-      <button class="lang-btn lang-btn-es" onclick="speak('es')"><span>🇲🇽 MX</span><span>🔊</span></button>
+      <div class="animal-name-label" id="label-es">LEÓN</div>
+      <button class="lang-btn lang-btn-es" onclick="speak('es')">🇲🇽 MX 🔊</button>
       <div class="record-tools-stack">
         <button class="tool-btn" id="rec-es" onclick="startRecording('es')">🎙️</button>
         <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>▶️</button>
       </div>
     </div>
     <div class="lang-column">
-      <button class="lang-btn lang-btn-en" onclick="speak('en')"><span>🇺🇸 EN</span><span>🔊</span></button>
+      <div class="animal-name-label" id="label-en">LION</div>
+      <button class="lang-btn lang-btn-en" onclick="speak('en')">🇺🇸 EN 🔊</button>
       <div class="record-tools-stack">
         <button class="tool-btn" id="rec-en" onclick="startRecording('en')">🎙️</button>
         <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>▶️</button>
@@ -88,147 +97,54 @@
 </div>
 
 <script>
+  // Lista filtrada para 1:1 (Emoji exato)
   const animals = [
     { pt: "Leão", en: "Lion", es: "León", emoji: "🦁", bg: "#d4a017" },
     { pt: "Elefante", en: "Elephant", es: "Elefante", emoji: "🐘", bg: "#808b96" },
     { pt: "Girafa", en: "Giraffe", es: "Jirafa", emoji: "🦒", bg: "#f39c12" },
-    { pt: "Macaco", en: "Monkey", es: "Mono", emoji: "🐒", bg: "#a0522d" },
     { pt: "Tigre", en: "Tiger", es: "Tigre", emoji: "🐯", bg: "#e67e22" },
-    { pt: "Urso", en: "Bear", es: "Oso", emoji: "🐻", bg: "#5d4037" },
+    { pt: "Zebra", en: "Zebra", es: "Cebra", emoji: "🦓", bg: "#2c3e50" },
+    { pt: "Gorila", en: "Gorilla", es: "Gorila", emoji: "🦍", bg: "#212f3d" },
+    { pt: "Panda", en: "Panda", es: "Panda", emoji: "🐼", bg: "#fdfefe" },
+    { pt: "Hipopótamo", en: "Hippo", es: "Hipopótamo", emoji: "🦛", bg: "#566573" },
+    { pt: "Jacaré", en: "Crocodile", es: "Cocodrilo", emoji: "🐊", bg: "#145a32" },
+    { pt: "Tartaruga", en: "Turtle", es: "Tortuga", emoji: "🐢", bg: "#1e8449" },
+    { pt: "Cobra", en: "Snake", es: "Serpiente", emoji: "🐍", bg: "#1d8348" },
     { pt: "Pinguim", en: "Penguin", es: "Pingüino", emoji: "🐧", bg: "#2e86c1" },
     { pt: "Tubarão", en: "Shark", es: "Tiburón", emoji: "🦈", bg: "#2874a6" },
-    { pt: "Zebra", en: "Zebra", es: "Cebra", emoji: "🦓", bg: "#2c3e50" },
-    { pt: "Hipopótamo", en: "Hippo", es: "Hipopótamo", emoji: "🦛", bg: "#566573" },
-    { pt: "Jacaré", en: "Alligator", es: "Caimán", emoji: "🐊", bg: "#145a32" },
-    { pt: "Cobra", en: "Snake", es: "Serpiente", emoji: "🐍", bg: "#1d8348" },
-    { pt: "Canguru", en: "Kangaroo", es: "Canguro", emoji: "🦘", bg: "#a04000" },
-    { pt: "Rinoceronte", en: "Rhino", es: "Rinoceronte", emoji: "🦏", bg: "#515a5a" },
-    { pt: "Tartaruga", en: "Turtle", es: "Tortuga", emoji: "🐢", bg: "#1e8449" },
-    { pt: "Golfinho", en: "Dolphin", es: "Delfín", emoji: "🐬", bg: "#3498db" },
     { pt: "Polvo", en: "Octopus", es: "Pulpo", emoji: "🐙", bg: "#884ea0" },
-    { pt: "Baleia", en: "Whale", es: "Ballena", emoji: "🐋", bg: "#1a5276" },
-    { pt: "Cavalo", en: "Horse", es: "Caballo", emoji: "🐎", bg: "#784212" },
-    { pt: "Vaca", en: "Cow", es: "Vaca", emoji: "🐄", bg: "#212f3d" },
-    { pt: "Porco", en: "Pig", es: "Cerdo", emoji: "🐷", bg: "#ec7063" },
-    { pt: "Galinha", en: "Chicken", es: "Pollo", emoji: "🐔", bg: "#f4d03f" },
-    { pt: "Pato", en: "Duck", es: "Pato", emoji: "🦆", bg: "#2ecc71" },
-    { pt: "Ovelha", en: "Sheep", es: "Oveja", emoji: "🐑", bg: "#95a5a6" },
-    { pt: "Cachorro", en: "Dog", es: "Perro", emoji: "🐕", bg: "#af601a" },
-    { pt: "Gato", en: "Cat", es: "Gato", emoji: "🐈", bg: "#d68910" },
-    { pt: "Coelho", en: "Rabbit", es: "Conejo", emoji: "🐇", bg: "#7f8c8d" },
-    { pt: "Rato", en: "Mouse", es: "Ratón", emoji: "🐭", bg: "#566573" },
-    { pt: "Esquilo", en: "Squirrel", es: "Ardilla", emoji: "🐿️", bg: "#a04000" },
-    { pt: "Raposa", en: "Fox", es: "Zorro", emoji: "🦊", bg: "#d35400" },
-    { pt: "Lobo", en: "Wolf", es: "Lobo", emoji: "🐺", bg: "#34495e" },
-    { pt: "Morcego", en: "Bat", es: "Murciélago", emoji: "🦇", bg: "#1c2833" },
-    { pt: "Águia", en: "Eagle", es: "Águila", emoji: "🦅", bg: "#9a7d0a" },
-    { pt: "Coruja", en: "Owl", es: "Búho", emoji: "🦉", bg: "#4a235a" },
-    { pt: "Papagaio", en: "Parrot", es: "Loro", emoji: "🦜", bg: "#1e8449" },
-    { pt: "Pavão", en: "Peacock", es: "Pavo real", emoji: "🦚", bg: "#154360" },
-    { pt: "Flamingo", en: "Flamingo", es: "Flamenco", emoji: "🦩", bg: "#f06292" },
-    { pt: "Cisne", en: "Swan", es: "Cisne", emoji: "🦢", bg: "#fdfefe" },
-    { pt: "Sapo", en: "Frog", es: "Rana", emoji: "🐸", bg: "#229954" },
     { pt: "Abelha", en: "Bee", es: "Abeja", emoji: "🐝", bg: "#f1c40f" },
     { pt: "Borboleta", en: "Butterfly", es: "Mariposa", emoji: "🦋", bg: "#5dade2" },
-    { pt: "Aranha", en: "Spider", es: "Araña", emoji: "🕷️", bg: "#17202a" },
-    { pt: "Escorpião", en: "Scorpion", es: "Escorpión", emoji: "🦂", bg: "#6e2c00" },
-    { pt: "Caranguejo", en: "Crab", es: "Cangrejo", emoji: "🦀", bg: "#c0392b" },
-    { pt: "Lagosta", en: "Lobster", es: "Langosta", emoji: "🦞", bg: "#922b21" },
-    { pt: "Camarão", en: "Shrimp", es: "Camarón", emoji: "🦐", bg: "#f5b7b1" },
-    { pt: "Peixe", en: "Fish", es: "Pez", emoji: "🐟", bg: "#5499c7" },
-    { pt: "Caracol", en: "Snail", es: "Caracol", emoji: "🐌", bg: "#7e5109" },
-    { pt: "Formiga", en: "Ant", es: "Hormiga", emoji: "🐜", bg: "#42210b" },
-    { pt: "Grilo", en: "Cricket", es: "Grillo", emoji: "🦗", bg: "#196f3d" },
-    { pt: "Camelo", en: "Camel", es: "Camello", emoji: "🐫", bg: "#b7950b" },
-    { pt: "Lhama", en: "Llama", es: "Llama", emoji: "🦙", bg: "#f7f9f9" },
-    { pt: "Gorila", en: "Gorilla", es: "Gorila", emoji: "🦍", bg: "#212f3d" },
-    { pt: "Preguiça", en: "Sloth", es: "Perezoso", emoji: "🦥", bg: "#6e2c00" },
-    { pt: "Panda", en: "Panda", es: "Panda", emoji: "🐼", bg: "#fdfefe" },
-    { pt: "Coala", en: "Koala", es: "Koala", emoji: "🐨", bg: "#7f8c8d" },
-    { pt: "Castor", en: "Beaver", es: "Castor", emoji: "🦫", bg: "#784212" },
-    { pt: "Lontra", en: "Otter", es: "Nutria", emoji: "🦦", bg: "#4e342e" },
-    { pt: "Doninha", en: "Skunk", es: "Zorrillo", emoji: "🦨", bg: "#1b2631" },
-    { pt: "Texugo", en: "Badger", es: "Tejón", emoji: "🦡", bg: "#2c3e50" },
-    { pt: "Galo", en: "Rooster", es: "Gallo", emoji: "🐓", bg: "#e74c3c" },
-    { pt: "Peru", en: "Turkey", es: "Pavo", emoji: "🦃", bg: "#a04000" },
-    { pt: "Pomba", en: "Dove", es: "Paloma", emoji: "🕊️", bg: "#f4f6f7" },
-    { pt: "Águia", en: "Eagle", es: "Águila", emoji: "🦅", bg: "#7e5109" },
-    { pt: "Pica-pau", en: "Woodpecker", es: "Pájaro carpintero", emoji: "🐦", bg: "#c0392b" },
-    { pt: "Grifo", en: "Griffon", es: "Buitre", emoji: "🦅", bg: "#515a5a" },
-    { pt: "Arara", en: "Macaw", es: "Guacamayo", emoji: "🦜", bg: "#2ecc71" },
-    { pt: "Beija-flor", en: "Hummingbird", es: "Colibrí", emoji: "🐦", bg: "#1abc9c" },
-    { pt: "Morça", en: "Walrus", es: "Morsa", emoji: "🦭", bg: "#5d6d7e" },
-    { pt: "Foca", en: "Seal", es: "Foca", emoji: "🦭", bg: "#85929e" },
-    { pt: "Arraia", en: "Stingray", es: "Mantarraya", emoji: "🐟", bg: "#2e86c1" },
-    { pt: "Medusa", en: "Jellyfish", es: "Medusa", emoji: "🪼", bg: "#af7ac5" },
-    { pt: "Coral", en: "Coral", es: "Coral", emoji: "🪸", bg: "#ec7063" },
-    { pt: "Estrela do mar", en: "Starfish", es: "Estrella de mar", emoji: "⭐", bg: "#f4d03f" },
-    { pt: "Concha", en: "Shell", es: "Concha", emoji: "🐚", bg: "#fdedec" },
-    { pt: "Joaninha", en: "Ladybug", es: "Catarina", emoji: "🐞", bg: "#c0392b" },
-    { pt: "Mosca", en: "Fly", es: "Mosca", emoji: "🪰", bg: "#212f3d" },
-    { pt: "Barata", en: "Cockroach", es: "Cucaracha", emoji: "🪳", bg: "#42210b" },
-    { pt: "Besouro", en: "Beetle", es: "Escarabajo", emoji: "🪲", bg: "#1d8348" },
-    { pt: "Centopeia", en: "Centipede", es: "Ciempiés", emoji: "🐛", bg: "#784212" },
-    { pt: "Minhoca", en: "Worm", es: "Lombriz", emoji: "🪱", bg: "#f5b7b1" },
-    { pt: "Dinossauro", en: "Dinosaur", es: "Dinosaurio", emoji: "🦖", bg: "#1e8449" },
-    { pt: "Mamute", en: "Mammoth", es: "Mamut", emoji: "🦣", bg: "#6e2c00" },
-    { pt: "Dodô", en: "Dodo", es: "Dodo", emoji: "🦤", bg: "#95a5a6" },
-    { pt: "Unicórnio", en: "Unicorn", es: "Unicornio", emoji: "🦄", bg: "#af7ac5" },
-    { pt: "Dragão", en: "Dragon", es: "Dragón", emoji: "🐉", bg: "#1d8348" },
-    { pt: "Fênix", en: "Phoenix", es: "Fénix", emoji: "🐦", bg: "#e67e22" },
-    { pt: "Cervo", en: "Deer", es: "Ciervo", emoji: "🦌", bg: "#a04000" },
-    { pt: "Bode", en: "Goat", es: "Cabra", emoji: "🐐", bg: "#d5dbdb" },
-    { pt: "Touro", en: "Bull", es: "Toro", emoji: "🐂", bg: "#641e16" },
-    { pt: "Burro", en: "Donkey", es: "Burro", emoji: "🫏", bg: "#85929e" },
-    { pt: "Hiena", en: "Hyena", es: "Hiena", emoji: "🐆", bg: "#7e5109" },
-    { pt: "Guepardo", en: "Cheetah", es: "Guepardo", emoji: "🐆", bg: "#d4ac0d" },
-    { pt: "Leopardo", en: "Leopard", es: "Leopardo", emoji: "🐆", bg: "#ca6f1e" },
-    { pt: "Puma", en: "Cougar", es: "Puma", emoji: "🐈", bg: "#d35400" },
-    { pt: "Lince", en: "Lynx", es: "Lince", emoji: "🐈", bg: "#a04000" },
-    { pt: "Hamster", en: "Hamster", es: "Hámster", emoji: "🐹", bg: "#edbb99" },
-    { pt: "Porquinho-da-índia", en: "Guinea pig", es: "Cuy", emoji: "🐹", bg: "#e67e22" },
-    { pt: "Ouriço", en: "Hedgehog", es: "Erizo", emoji: "🦔", bg: "#5d4037" },
-    { pt: "Cisne Negro", en: "Black Swan", es: "Cisne Negro", emoji: "🦢", bg: "#17202a" }
+    { pt: "Cachorro", en: "Dog", es: "Perro", emoji: "🐶", bg: "#af601a" },
+    { pt: "Gato", en: "Cat", es: "Gato", emoji: "🐱", bg: "#d68910" },
+    { pt: "Coelho", en: "Rabbit", es: "Conejo", emoji: "🐰", bg: "#7f8c8d" },
+    { pt: "Porco", en: "Pig", es: "Cerdo", emoji: "🐷", bg: "#ec7063" },
+    { pt: "Vaca", en: "Cow", es: "Vaca", emoji: "🐮", bg: "#515a5a" },
+    { pt: "Galinha", en: "Chicken", es: "Pollo", emoji: "🐔", bg: "#f4d03f" },
+    { pt: "Macaco", en: "Monkey", es: "Mono", emoji: "🐵", bg: "#a0522d" },
+    { pt: "Sapo", en: "Frog", es: "Rana", emoji: "🐸", bg: "#229954" },
+    { pt: "Rinoceronte", en: "Rhino", es: "Rinoceronte", emoji: "🦏", bg: "#5d6d7e" },
+    { pt: "Canguru", en: "Kangaroo", es: "Canguro", emoji: "🦘", bg: "#a04000" },
+    { pt: "Baleia", en: "Whale", es: "Ballena", emoji: "🐳", bg: "#1a5276" },
+    { pt: "Caracol", en: "Snail", es: "Caracol", emoji: "🐌", bg: "#7e5109" }
   ];
 
-  let currentIdx = 0;
-  let animalCounter = 0;
+  let currentIdx = -1;
   let mediaRecorder;
   let audioChunks = { pt: null, es: null, en: null };
 
-  // Fundo de estrelas
-  const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 50; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    s.style.width = s.style.height = (Math.random() * 3) + 'px';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    s.style.setProperty('--d', (Math.random() * 3 + 1) + 's');
-    starsContainer.appendChild(s);
-  }
-
-  function startGame() {
-    document.getElementById('menuScreen').classList.add('hidden');
-    document.getElementById('gameScreen').classList.remove('hidden');
-    nextAnimal();
-  }
-
   function nextAnimal() {
-    // Escolha aleatória que não repete o mesmo bicho imediatamente
     let newIdx;
     do { newIdx = Math.floor(Math.random() * animals.length); } while (newIdx === currentIdx);
     currentIdx = newIdx;
-    
-    animalCounter++;
     const animal = animals[currentIdx];
     
     document.getElementById('animalEmoji').textContent = animal.emoji;
-    document.getElementById('animalLabel').textContent = animal.pt;
+    document.getElementById('label-pt').textContent = animal.pt;
+    document.getElementById('label-es').textContent = animal.es;
+    document.getElementById('label-en').textContent = animal.en;
     document.getElementById('card').style.background = `linear-gradient(135deg, ${animal.bg}, #0b1a30)`;
-    document.getElementById('counterUI').textContent = `Animal ${animalCounter} de 100`;
     
-    // Resetar botões de play
     ['pt', 'es', 'en'].forEach(l => {
         audioChunks[l] = null;
         document.getElementById(`play-${l}`).disabled = true;
@@ -244,11 +160,13 @@
 
     if (langCode === 'pt') { utterance.lang = 'pt-BR'; }
     else if (langCode === 'es') { 
-        utterance.lang = 'es-MX'; 
-        const v = window.speechSynthesis.getVoices().find(v => v.lang.includes('MX'));
-        if(v) utterance.voice = v;
+      utterance.lang = 'es-MX'; 
+      const v = window.speechSynthesis.getVoices().find(v => v.lang.includes('MX'));
+      if(v) utterance.voice = v;
+    } else { 
+      utterance.lang = 'en-US'; 
+      utterance.rate = 0.6; 
     }
-    else { utterance.lang = 'en-US'; utterance.rate = 0.6; }
     window.speechSynthesis.speak(utterance);
   }
 
@@ -257,32 +175,41 @@
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
       mediaRecorder = new MediaRecorder(stream, { mimeType });
-      let localChunks = [];
+      let chunks = [];
       const btn = document.getElementById(`rec-${lang}`);
       btn.classList.add('recording');
 
-      mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) localChunks.push(e.data); };
+      mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
       mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(localChunks, { type: mimeType });
-        audioChunks[lang] = URL.createObjectURL(audioBlob);
+        const blob = new Blob(chunks, { type: mimeType });
+        audioChunks[lang] = URL.createObjectURL(blob);
         document.getElementById(`play-${lang}`).disabled = false;
         btn.classList.remove('recording');
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach(t => t.stop());
       };
       mediaRecorder.start();
       setTimeout(() => { if(mediaRecorder.state === "recording") mediaRecorder.stop(); }, 3000);
-    } catch (err) { alert("Ative o microfone para gravar!"); }
+    } catch (e) { alert("Ative o microfone!"); }
   }
 
   function playRecording(lang) {
-    if (audioChunks[lang]) {
-        const audio = new Audio(audioChunks[lang]);
-        audio.play().catch(e => console.log("Erro Play:", e));
-    }
+    if (audioChunks[lang]) new Audio(audioChunks[lang]).play();
+  }
+
+  // Estrelas
+  const sc = document.getElementById('stars');
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.width = s.style.height = (Math.random() * 3) + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.setProperty('--d', (Math.random() * 3 + 1) + 's');
+    sc.appendChild(s);
   }
 
   window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+  nextAnimal();
 </script>
-
 </body>
 </html>
