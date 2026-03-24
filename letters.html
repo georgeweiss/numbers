@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vox Kids - ABC das Letras v1.3.1</title>
+<title>Vox Kids - ABC v1.3.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,30 +13,13 @@
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  /* Cabeçalho */
   .nav-header { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
-  
-  .btn-back-menu { 
-    text-decoration: none; 
-    background: linear-gradient(135deg, #4dabf7, #228be6); 
-    padding: 10px 22px; 
-    border-radius: 15px; 
-    color: white; 
-    font-weight: 800; 
-    font-size: 0.85rem; 
-    border: none;
-    box-shadow: 0 4px 15px rgba(34, 139, 230, 0.4);
-    display: block;
-  }
-
+  .btn-back-menu { text-decoration: none; background: linear-gradient(135deg, #4dabf7, #228be6); padding: 10px 22px; border-radius: 15px; color: white; font-weight: 800; font-size: 0.85rem; border: none; box-shadow: 0 4px 15px rgba(34, 139, 230, 0.4); display: block; }
   .parent-lock { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 5px; opacity: 0.8; }
-
-  /* Contador e Status */
   .counter { color: #a3ffac; font-size: 0.85rem; font-weight: bold; position: absolute; top: 65px; width: 100%; text-align: center; pointer-events: none; }
 
   .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 8px; }
 
-  /* Card Letra */
   .card { 
     width: min(280px, 75vw); aspect-ratio: 1; border-radius: 45px; 
     display: flex; align-items: center; justify-content: center; 
@@ -45,9 +28,9 @@
   }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   
-  .letter-display { font-family: 'Fredoka One', cursive; font-size: 150px; color: #fff; text-shadow: 0 0 25px rgba(255,255,255,0.4); text-transform: uppercase; }
+  /* Exibição das Letras (Maiúscula e Minúscula) */
+  .letter-display { font-family: 'Fredoka One', cursive; font-size: 110px; color: #fff; text-shadow: 0 0 25px rgba(255,255,255,0.4); letter-spacing: -5px; }
 
-  /* Controles de Idioma */
   .lang-container { display: flex; gap: 8px; width: 100%; max-width: 480px; justify-content: center; align-items: flex-end; }
   .lang-column { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
   
@@ -56,25 +39,17 @@
   .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
   .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
-  /* Botões de Microfone e Play */
   .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; transition: 0.2s; }
-  .tool-btn:disabled { opacity: 0.1; cursor: default; }
-
-  /* ESTADOS DO MICROFONE */
+  .tool-btn:disabled { opacity: 0.1; }
   .tool-btn.recording { background: #ff4444 !important; color: white !important; animation: pulse 0.8s infinite !important; }
   .tool-btn.has-audio { background: #a3ffac !important; color: #0b1a30; }
   @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
 
-  /* Navegação */
   .footer-nav { display: flex; align-items: center; gap: 15px; margin-top: 15px; margin-bottom: 30px; }
   .nav-arrow-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .nav-arrow-btn:disabled { opacity: 0.2; }
 
-  .next-btn { 
-    padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; 
-    font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #5e3a00; cursor: pointer; 
-    box-shadow: 0 6px 0 #b37700; transition: 0.3s;
-  }
+  .next-btn { padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #5e3a00; cursor: pointer; box-shadow: 0 6px 0 #b37700; transition: 0.3s; }
   .next-btn:disabled { background: #555; color: #888; box-shadow: 0 6px 0 #333; opacity: 0.5; cursor: not-allowed; }
 
   .version-footer { position: fixed; bottom: 8px; width: 100%; text-align: center; color: rgba(255,255,255,0.3); font-size: 0.65rem; pointer-events: none; }
@@ -89,11 +64,11 @@
   <button class="parent-lock" id="lockBtn" onclick="toggleLock()">🔒</button>
 </div>
 
-<div class="counter" id="counterUI">Carregando alfabeto...</div>
+<div class="counter" id="counterUI">Carregando...</div>
 
 <div class="screen">
   <div class="card" id="card">
-    <div class="letter-display" id="letterVal">A</div>
+    <div class="letter-display" id="letterVal">Aa</div>
   </div>
 
   <div class="lang-container">
@@ -123,12 +98,14 @@
 <div class="version-footer">v1.3.1 - Estável (Letras)</div>
 
 <script>
-  // Gera o alfabeto completo (A-Z) com cores baseadas no HSL
   const alphabetStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const allLetters = alphabetStr.split('').map((char, index) => {
-    // Distribui as cores uniformemente pelo alfabeto
     const hue = (index / alphabetStr.length) * 360;
-    return { char: char, bg: `hsl(${hue}, 60%, 25%)` };
+    return { 
+      upper: char, 
+      lower: char.toLowerCase(), 
+      bg: `hsl(${hue}, 60%, 25%)` 
+    };
   });
 
   let queue = [...allLetters];
@@ -151,7 +128,8 @@
 
   function displayLetter(obj) {
     currentObj = obj;
-    document.getElementById('letterVal').textContent = obj.char;
+    // Exibe Aa, Bb, Cc...
+    document.getElementById('letterVal').textContent = obj.upper + obj.lower;
     document.getElementById('card').style.background = `linear-gradient(135deg, ${obj.bg}, #0b1a30)`;
     
     ['pt', 'es', 'en'].forEach(l => {
@@ -175,52 +153,44 @@
   function prevLetter() {
     if (history.length > 0) {
       const prev = history.pop();
-      queue.push(currentObj); // Devolve a atual para a fila
+      queue.push(currentObj);
       displayLetter(prev);
     }
   }
 
-  // GRAVAÇÃO ESTABILIZADA (v1.3.1)
   async function startRecording(lang) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      
-      // Detecta formato suportado pelo dispositivo
       const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
       const mr = new MediaRecorder(stream, { mimeType });
       let chunks = [];
       const btn = document.getElementById(`rec-${lang}`);
-      
-      // Reseta cores para estado de gravação
       btn.classList.remove('has-audio');
       btn.classList.add('recording');
-
       mr.ondataavailable = (e) => chunks.push(e.data);
       mr.onstop = () => {
         audioChunks[lang] = URL.createObjectURL(new Blob(chunks, { type: mimeType }));
         document.getElementById(`play-${lang}`).disabled = false;
-        
-        btn.classList.remove('recording'); // Para de piscar
-        btn.classList.add('has-audio');    // Fica verde
-        
+        btn.classList.remove('recording');
+        btn.classList.add('has-audio');
         stream.getTracks().forEach(track => track.stop());
         checkRequirements();
       };
       mr.start();
-      // Limita gravação a 3 segundos
       setTimeout(() => { if(mr.state === "recording") mr.stop(); }, 3000);
-    } catch (err) { alert("Ative o microfone nas configurações!"); }
+    } catch (err) { alert("Ative o microfone!"); }
   }
 
-  // VOZ (v1.3.1 com velocidade ajustada para Inglês)
   function speak(langCode) {
     window.speechSynthesis.cancel();
-    const text = currentObj.char.toUpperCase(); // Força falar a letra maiúscula
-    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // O TRUQUE: Usar a versão minúscula no TTS evita que ele diga "Maiúsculo"
+    const utterance = new SpeechSynthesisUtterance(currentObj.lower);
+    
     const voiceLang = langCode === 'pt' ? 'pt-BR' : (langCode === 'es' ? 'es-MX' : 'en-US');
     utterance.lang = voiceLang;
     
-    if (langCode === 'en') utterance.rate = 0.7; // Mais lento para melhor entendimento
+    if (langCode === 'en') utterance.rate = 0.7;
     else utterance.rate = 0.9;
     
     window.speechSynthesis.speak(utterance);
@@ -230,7 +200,6 @@
     if (audioChunks[lang]) new Audio(audioChunks[lang]).play();
   }
 
-  // Estrelas de fundo dinâmicas
   const sc = document.getElementById('stars');
   for (let i = 0; i < 40; i++) {
     const s = document.createElement('div');
@@ -242,7 +211,6 @@
     sc.appendChild(s);
   }
 
-  // Início automático após carregar vozes
   window.speechSynthesis.onvoiceschanged = () => { if(!currentObj) nextLetter(); };
   if(window.speechSynthesis.getVoices().length > 0) nextLetter();
 </script>
