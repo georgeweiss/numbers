@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +19,12 @@
     justify-content: center;
   }
 
-  /* Fundo Estelar */
+  /* Starry Background */
   .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
-  /* Título VOX KIDS */
+  /* Animated Logo */
   .logo-container {
     z-index: 10;
     text-align: center;
@@ -42,7 +42,7 @@
   }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-  /* Grid de Menu */
+  /* Menu Grid */
   .menu-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -67,10 +67,10 @@
   }
   .menu-item:active { transform: scale(0.95); }
 
-  /* Cores dos Botões */
+  /* Buttons Styling */
   .btn-safari { background: #27ae60; box-shadow: 0 8px 0 #1e8449; }
-  .btn-letras { background: #e74c3c; box-shadow: 0 8px 0 #c0392b; }
-  .btn-numeros { background: #f1c40f; box-shadow: 0 8px 0 #b7950b; color: #5e3a00; }
+  .btn-letters { background: #e74c3c; box-shadow: 0 8px 0 #c0392b; }
+  .btn-numbers { background: #f1c40f; box-shadow: 0 8px 0 #b7950b; color: #5e3a00; }
 
   .icon-circle {
     background: rgba(255,255,255,0.2);
@@ -83,12 +83,14 @@
     font-size: 1.8rem;
   }
 
+  /* Footer Cleaned */
   .version-tag {
     position: absolute;
     bottom: 15px;
-    opacity: 0.4;
-    font-size: 0.7rem;
+    opacity: 0.3;
+    font-size: 0.65rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
   }
 </style>
 </head>
@@ -106,21 +108,21 @@
     <div class="icon-circle">🦁</div>
   </a>
 
-  <a href="letras.html" class="menu-item btn-letras">
-    <span>LETRAS</span>
+  <a href="letters.html" class="menu-item btn-letters">
+    <span>LETTERS</span>
     <div class="icon-circle">Abc</div>
   </a>
 
-  <a href="numeros.html" class="menu-item btn-numeros">
-    <span>NÚMEROS</span>
+  <a href="numbers.html" class="menu-item btn-numbers">
+    <span>NUMBERS</span>
     <div class="icon-circle">123</div>
   </a>
 </div>
 
-<div class="version-tag">VOX KIDS v1.4.5 - MENU INICIAL</div>
+<div class="version-tag">VOX KIDS v1.4.6</div>
 
 <script>
-  // Gerador de estrelas para o fundo
+  // Star generation
   const sc = document.getElementById('stars');
   for(let i=0; i<60; i++) {
     const s = document.createElement('div');
