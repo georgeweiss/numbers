@@ -1,59 +1,63 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vox Kids - v1.4.2</title>
+<title>Vox Kids - Safari v10</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #0b1a30; min-height: 100vh; font-family: 'Baloo 2', cursive; overflow: hidden; user-select: none; color: white; }
+  html, body { background: #0b1a30; min-height: 100vh; font-family: 'Baloo 2', cursive; overflow-x: hidden; user-select: none; }
   
   .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
   @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
 
   .nav-header { position: absolute; top: 15px; left: 15px; right: 15px; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
-  .btn-menu { text-decoration: none; background: #4dabf7; padding: 10px 20px; border-radius: 12px; color: white; font-weight: 800; font-size: 0.8rem; box-shadow: 0 4px 0 #228be6; }
-  .lock-icon { font-size: 1.5rem; opacity: 0.7; cursor: pointer; }
+  .btn-back-menu { text-decoration: none; background: linear-gradient(135deg, #4dabf7, #228be6); padding: 10px 22px; border-radius: 15px; color: white; font-weight: 800; font-size: 0.85rem; border: none; box-shadow: 0 4px 15px rgba(34, 139, 230, 0.4); display: block; }
+  .parent-lock { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 5px; opacity: 0.8; }
 
-  .counter { color: #a3ffac; font-size: 1rem; font-weight: 800; position: absolute; top: 70px; width: 100%; text-align: center; z-index: 5; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+  .counter { color: #a3ffac; font-size: 0.85rem; font-weight: bold; position: absolute; top: 65px; width: 100%; text-align: center; pointer-events: none; }
 
-  .container { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; gap: 15px; }
+  .screen { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; gap: 8px; }
 
   .card { 
-    width: min(260px, 65vw); aspect-ratio: 1; border-radius: 45px; 
+    width: min(280px, 75vw); aspect-ratio: 1; border-radius: 45px; 
     display: flex; align-items: center; justify-content: center; 
-    border: 4px solid rgba(255,255,255,0.15); animation: float 4s ease-in-out infinite; 
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 75%);
+    border: 5px solid rgba(255,255,255,0.3); animation: float 4s ease-in-out infinite; 
+    margin-bottom: 5px; position: relative;
   }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-  .emoji { font-size: 120px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
-
-  .grid-langs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 420px; }
-  .col { display: flex; flex-direction: column; gap: 8px; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   
-  .name-tag { background: rgba(0,0,0,0.7); padding: 6px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; text-align: center; text-transform: uppercase; min-height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); }
+  .animal-emoji { font-size: 150px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); line-height: 1; }
 
-  .btn-audio { padding: 12px 5px; border-radius: 15px; border: none; color: white; font-weight: 800; font-size: 0.8rem; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: transform 0.1s; }
-  .btn-audio:active { transform: scale(0.95); }
-  .pt { background: #27ae60; box-shadow: 0 4px 0 #1e8449; }
-  .es { background: #e74c3c; box-shadow: 0 4px 0 #c0392b; }
-  .en { background: #2980b9; box-shadow: 0 4px 0 #21618c; }
+  .lang-container { display: flex; gap: 8px; width: 100%; max-width: 480px; justify-content: center; align-items: flex-end; }
+  .lang-column { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+  
+  .animal-name-label { 
+    color: #fff; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
+    background: rgba(0,0,0,0.5); padding: 4px 6px; border-radius: 8px;
+    text-align: center; min-height: 2.4em; display: flex; align-items: center; width: 100%; justify-content: center;
+  }
 
-  .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  .btn-tool { padding: 10px; border: none; border-radius: 10px; background: rgba(255,255,255,0.08); color: white; font-size: 1.1rem; cursor: pointer; }
-  .btn-tool.recording { background: #ff4757 !important; animation: blink 1s infinite; }
-  .btn-tool.success { background: #a3ffac !important; color: #0b1a30; }
-  @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } }
-  .btn-tool:disabled { opacity: 0.1; cursor: not-allowed; }
+  .lang-btn { width: 100%; padding: 12px 2px; border-radius: 12px; border: none; color: white; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; }
+  .lang-btn-pt { background: #009c3b; box-shadow: 0 4px 0 #006622; }
+  .lang-btn-es { background: #d52b1e; box-shadow: 0 4px 0 #8a0015; }
+  .lang-btn-en { background: #00247d; box-shadow: 0 4px 0 #001a5c; }
 
-  .footer { display: flex; align-items: center; gap: 20px; margin-top: 10px; }
-  .btn-circle { background: rgba(255,255,255,0.1); border: none; width: 55px; height: 55px; border-radius: 50%; color: white; font-size: 1.3rem; cursor: pointer; }
-  .btn-next { padding: 15px 40px; background: #f1c40f; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #7e5109; box-shadow: 0 6px 0 #b7950b; cursor: pointer; }
-  .btn-next:disabled { background: #34495e; color: #7f8c8d; box-shadow: 0 6px 0 #2c3e50; opacity: 0.5; }
+  .tool-btn { width: 100%; padding: 10px; border: none; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.15); color: white; font-size: 1.1rem; display: flex; justify-content: center; transition: 0.2s; }
+  .tool-btn.has-audio { background: #a3ffac !important; color: #0b1a30; }
+  .tool-btn.recording { background: #ff4444 !important; color: white !important; animation: pulse 0.8s infinite !important; }
+  @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
 
-  .version-tag { position: absolute; bottom: 10px; width: 100%; text-align: center; font-size: 0.6rem; opacity: 0.4; letter-spacing: 1px; z-index: 5; }
+  .tool-btn:disabled { opacity: 0.1; }
+
+  .footer-nav { display: flex; align-items: center; gap: 15px; margin-top: 15px; }
+  .nav-arrow-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 50px; height: 50px; color: white; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .nav-arrow-btn:disabled { opacity: 0.2; }
+
+  .next-btn { padding: 15px 40px; background: #ffe066; border: none; border-radius: 25px; font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: #5e3a00; cursor: pointer; box-shadow: 0 6px 0 #b37700; transition: 0.3s; }
+  .next-btn:disabled { background: #555; color: #888; box-shadow: 0 6px 0 #333; opacity: 0.5; cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -61,162 +65,234 @@
 <div class="stars" id="stars"></div>
 
 <div class="nav-header">
-  <a href="#" class="btn-menu">MENU</a>
-  <div class="lock-icon" id="lockBtn" onclick="toggleLock()">🔒</div>
+  <a href="index.html" class="btn-back-menu">MENU</a>
+  <button class="parent-lock" id="lockBtn" onclick="toggleLock()">🔒</button>
 </div>
 
-<div class="counter" id="counterUI">Safari Iniciando...</div>
+<div class="counter" id="counterUI">...</div>
 
-<div class="container">
+<div class="screen">
   <div class="card" id="card">
-    <div class="emoji" id="mainEmoji">🐾</div>
+    <div class="animal-emoji" id="animalEmoji">🐾</div>
   </div>
 
-  <div class="grid-langs">
-    <div class="col">
-      <div class="name-tag" id="t-pt">---</div>
-      <button class="btn-audio pt" onclick="say('pt')"><span>🔊 PT</span><span>🇧🇷</span></button>
-      <div class="tools">
-        <button class="btn-tool" id="rec-pt" onclick="rec('pt')">🎙️</button>
-        <button class="btn-tool" id="play-pt" onclick="play('pt')" disabled>▶️</button>
-      </div>
+  <div class="lang-container">
+    <div class="lang-column">
+      <div class="animal-name-label" id="label-pt">-</div>
+      <button class="lang-btn lang-btn-pt" onclick="speak('pt')">🔈 PT 🇧🇷</button>
+      <button class="tool-btn" id="rec-pt" onclick="startRecording('pt')">🎙️</button>
+      <button class="tool-btn" id="play-pt" onclick="playRecording('pt')" disabled>▶️</button>
     </div>
-    <div class="col">
-      <div class="name-tag" id="t-es">---</div>
-      <button class="btn-audio es" onclick="say('es')"><span>🔊 ES</span><span>🇲🇽</span></button>
-      <div class="tools">
-        <button class="btn-tool" id="rec-es" onclick="rec('es')">🎙️</button>
-        <button class="btn-tool" id="play-es" onclick="play('es')" disabled>▶️</button>
-      </div>
+    <div class="lang-column">
+      <div class="animal-name-label" id="label-es">-</div>
+      <button class="lang-btn lang-btn-es" onclick="speak('es')">🔈 ES 🇲🇽</button>
+      <button class="tool-btn" id="rec-es" onclick="startRecording('es')">🎙️</button>
+      <button class="tool-btn" id="play-es" onclick="playRecording('es')" disabled>▶️</button>
     </div>
-    <div class="col">
-      <div class="name-tag" id="t-en">---</div>
-      <button class="btn-audio en" onclick="say('en')"><span>🔊 EN</span><span>🇺🇸</span></button>
-      <div class="tools">
-        <button class="btn-tool" id="rec-en" onclick="rec('en')">🎙️</button>
-        <button class="btn-tool" id="play-en" onclick="play('en')" disabled>▶️</button>
-      </div>
+    <div class="lang-column">
+      <div class="animal-name-label" id="label-en">-</div>
+      <button class="lang-btn lang-btn-en" onclick="speak('en')">🔈 EN 🇺🇸</button>
+      <button class="tool-btn" id="rec-en" onclick="startRecording('en')">🎙️</button>
+      <button class="tool-btn" id="play-en" onclick="playRecording('en')" disabled>▶️</button>
     </div>
   </div>
 
-  <div class="footer">
-    <button class="btn-circle" id="prevBtn" onclick="goBack()" disabled>←</button>
-    <button class="btn-next" id="nextBtn" onclick="goNext()" disabled>PRÓXIMO ➔</button>
+  <div class="footer-nav">
+    <button class="nav-arrow-btn" id="btnPrev" onclick="prevAnimal()" disabled>←</button>
+    <button class="next-btn" id="btnNext" onclick="nextAnimal()" disabled>NEXT ➔</button>
   </div>
 </div>
-
-<div class="version-tag">v1.4.2 - ESTÁVEL (CORREÇÃO DE NOMES)</div>
 
 <script>
-  // Banco de dados corrigido v1.4.2
-  const animals = [
-    { pt: "Bisão", es: "Bisonte", en: "Bison", emoji: "🦬", hex: "#5d4037" },
-    { pt: "Minhoca", es: "Lombriz", en: "Worm", emoji: "🪱", hex: "#ff8a80" },
-    { pt: "Lontra", es: "Nutria", en: "Otter", emoji: "🦦", hex: "#8d6e63" },
-    { pt: "Morcego", es: "Murciélago", en: "Bat", emoji: "🦇", hex: "#2c3e50" },
-    { pt: "Leão", es: "León", en: "Lion", emoji: "🦁", hex: "#f39c12" },
-    { pt: "Tigre", es: "Tigre", en: "Tiger", emoji: "🐯", hex: "#e67e22" },
-    { pt: "Zebra", es: "Cebra", en: "Zebra", emoji: "🦓", hex: "#34495e" },
-    { pt: "Elefante", es: "Elefante", en: "Elephant", emoji: "🐘", hex: "#95a5a6" }
+  const allAnimals = [
+    { pt: "Abelha", en: "Bee", es: "Abeja", emoji: "🐝", bg: "#f1c40f" },
+    { pt: "Águia", en: "Eagle", es: "Águila", emoji: "🦅", bg: "#9a7d0a" },
+    { pt: "Água-viva", en: "Jellyfish", es: "Medusa", emoji: "🪼", bg: "#a569bd" },
+    { pt: "Aranha", en: "Spider", es: "Araña", emoji: "🕷️", bg: "#17202a" },
+    { pt: "Barata", en: "Cockroach", es: "Cucaracha", emoji: "🪳", bg: "#6e2c00" },
+    { pt: "Baleia", en: "Whale", es: "Ballena", emoji: "🐳", bg: "#1a5276" },
+    { pt: "Besouro", en: "Beetle", es: "Escarabajo", emoji: "🪲", bg: "#145a32" },
+    { pt: "Bicho-preguiça", en: "Sloth", es: "Perezoso", emoji: "🦥", bg: "#5d4037" },
+    { pt: "Borboleta", en: "Butterfly", es: "Mariposa", emoji: "🦋", bg: "#5dade2" },
+    { pt: "Bisão", en: "Bison", es: "Bisonte", emoji: "🦬", bg: "#512e5f" }, // Corrigido
+    { pt: "Cabra", en: "Goat", es: "Cabra", emoji: "🐐", bg: "#d5dbdb" },
+    { pt: "Cachorro", en: "Dog", es: "Perro", emoji: "🐕", bg: "#af601a" },
+    { pt: "Camelo", en: "Camel", es: "Camello", emoji: "🐫", bg: "#b7950b" },
+    { pt: "Canguru", en: "Kangaroo", es: "Canguro", emoji: "🦘", bg: "#a04000" },
+    { pt: "Caracol", en: "Snail", es: "Caracol", emoji: "🐌", bg: "#7e5109" },
+    { pt: "Caranguejo", en: "Crab", es: "Cangrejo", emoji: "🦀", bg: "#c0392b" },
+    { pt: "Carneiro", en: "Ram", es: "Carnero", emoji: "🐏", bg: "#fdfefe" },
+    { pt: "Castor", en: "Beaver", es: "Castor", emoji: "🦫", bg: "#6e2c00" },
+    { pt: "Cavalo", en: "Horse", es: "Caballo", emoji: "🐎", bg: "#7e5109" },
+    { pt: "Cisne", en: "Swan", es: "Cisne", emoji: "🦢", bg: "#fdfefe" },
+    { pt: "Coala", en: "Koala", es: "Koala", emoji: "🐨", bg: "#85929e" },
+    { pt: "Cobra", en: "Snake", es: "Serpiente", emoji: "🐍", bg: "#1d8348" },
+    { pt: "Coelho", en: "Rabbit", es: "Conejo", emoji: "🐇", bg: "#7f8c8d" },
+    { pt: "Coruja", en: "Owl", es: "Búho", emoji: "🦉", bg: "#4a235a" },
+    { pt: "Coruja", en: "Owl", es: "Búho", emoji: "🦉", bg: "#4a235a" },
+    { pt: "Crocodilo", en: "Crocodile", es: "Cocodrilo", emoji: "🐊", bg: "#145a32" },
+    { pt: "Elefante", en: "Elephant", es: "Elefante", emoji: "🐘", bg: "#808b96" },
+    { pt: "Escorpião", en: "Scorpion", es: "Escorpión", emoji: "Scorpión", emoji: "🦂", bg: "#6e2c00" },
+    { pt: "Foca", en: "Seal", es: "Foca", emoji: "🦭", bg: "#85929e" },
+    { pt: "Formiga", en: "Ant", es: "Hormiga", emoji: "🐜", bg: "#42210b" },
+    { pt: "Galinha", en: "Chicken", es: "Gallina", emoji: "🐔", bg: "#f4d03f" },
+    { pt: "Galo", en: "Rooster", es: "Gallo", emoji: "🐓", bg: "#c0392b" },
+    { pt: "Gambá", en: "Skunk", es: "Zorrillo", emoji: "🦨", bg: "#2c3e50" },
+    { pt: "Girafa", en: "Giraffe", es: "Jirafa", emoji: "🦒", bg: "#f39c12" },
+    { pt: "Golfinho", en: "Dolphin", es: "Delfín", emoji: "🐬", bg: "#2e86c1" },
+    { pt: "Gorila", en: "Gorilla", es: "Gorila", emoji: "🦍", bg: "#212f3d" },
+    { pt: "Grilo", en: "Cricket", es: "Grillo", emoji: "🦗", bg: "#196f3d" },
+    { pt: "Guaxinim", en: "Raccoon", es: "Mapache", emoji: "🦝", bg: "#566573" },
+    { pt: "Hamster", en: "Hamster", es: "Hámster", emoji: "🐹", bg: "#edbb99" },
+    { pt: "Hipopótamo", en: "Hippo", es: "Hipopótamo", emoji: "🦛", bg: "#566573" },
+    { pt: "Javali", en: "Wild Boar", es: "Jabalí", emoji: "🐗", bg: "#5d4037" },
+    { pt: "Joaninha", en: "Ladybug", es: "Mariquita", emoji: "🐞", bg: "#c0392b" },
+    { pt: "Lagarta", en: "Caterpillar", es: "Oruga", emoji: "🐛", bg: "#2ecc71" },
+    { pt: "Lagarto", en: "Lizard", es: "Lagarto", emoji: "🦎", bg: "#1e8449" },
+    { pt: "Lagosta", en: "Lobster", es: "Langosta", emoji: "🦞", bg: "#922b21" },
+    { pt: "Leão", en: "Lion", es: "León", emoji: "🦁", bg: "#d4a017" },
+    { pt: "Leopardo", en: "Leopard", es: "Leopardo", emoji: "🐆", bg: "#d68910" },
+    { pt: "Lhama", en: "Llama", es: "Llama", emoji: "🦙", bg: "#f7f9f9" },
+    { pt: "Lobo", en: "Wolf", es: "Lobo", emoji: "🐺", bg: "#5d6d7e" },
+    { pt: "Lontra", en: "Otter", es: "Nutria", emoji: "🦦", bg: "#5d4037" },
+    { pt: "Lula", en: "Squid", es: "Calamar", emoji: "🦑", bg: "#a04000" },
+    { pt: "Macaco", en: "Monkey", es: "Mono", emoji: "🐒", bg: "#a0522d" },
+    { pt: "Minhoca", en: "Worm", es: "Lombriz", emoji: "🪱", bg: "#ec7063" }, // Corrigido
+    { pt: "Morcego", en: "Bat", es: "Murciélago", emoji: "🦇", bg: "#1c2833" },
+    { pt: "Mosca", en: "Fly", es: "Mosca", emoji: "🪰", bg: "#515a5a" },
+    { pt: "Mosquito", en: "Mosquito", es: "Mosquito", emoji: "🦟", bg: "#424949" },
+    { pt: "Ouriço", en: "Hedgehog", es: "Erizo", emoji: "🦔", bg: "#5d4037" },
+    { pt: "Ovelha", en: "Sheep", es: "Oveja", emoji: "🐑", bg: "#fdfefe" },
+    { pt: "Panda", en: "Panda", es: "Panda", emoji: "🐼", bg: "#fdfefe" },
+    { pt: "Papagaio", en: "Parrot", es: "Loro", emoji: "🦜", bg: "#1e8449" },
+    { pt: "Pássaro", en: "Bird", es: "Pájaro", emoji: "🐦", bg: "#3498db" },
+    { pt: "Pato", en: "Duck", es: "Pato", emoji: "🦆", bg: "#2ecc71" },
+    { pt: "Pavão", en: "Peacock", es: "Pavo real", emoji: "🦚", bg: "#154360" },
+    { pt: "Peixe", en: "Fish", es: "Pez", emoji: "🐟", bg: "#3498db" },
+    { pt: "Pinguim", en: "Penguin", es: "Pingüino", emoji: "🐧", bg: "#2e86c1" },
+    { pt: "Pintinho", en: "Chick", es: "Pollito", emoji: "🐥", bg: "#f1c40f" },
+    { pt: "Polvo", en: "Octopus", es: "Pulpo", emoji: "🐙", bg: "#884ea0" },
+    { pt: "Pomba", en: "Dove", es: "Paloma", emoji: "🕊️", bg: "#fdfefe" },
+    { pt: "Porco", en: "Pig", es: "Cerdo", emoji: "🐖", bg: "#ec7063" },
+    { pt: "Raposa", en: "Fox", es: "Zorro", emoji: "🦊", bg: "#e67e22" },
+    { pt: "Rato", en: "Mouse", es: "Ratón", emoji: "🐀", bg: "#7f8c8d" },
+    { pt: "Rinoceronte", en: "Rhino", es: "Rinoceronte", emoji: "🦏", bg: "#5d6d7e" },
+    { pt: "Sapo", en: "Frog", es: "Rana", emoji: "🐸", bg: "#229954" },
+    { pt: "Tartaruga", en: "Turtle", es: "Tortuga", emoji: "🐢", bg: "#1e8449" },
+    { pt: "Touro", en: "Bull", es: "Toro", emoji: "🐂", bg: "#6e2b00" },
+    { pt: "Tubarão", en: "Shark", es: "Tiburón", emoji: "🦈", bg: "#2874a6" },
+    { pt: "Urso", en: "Bear", es: "Oso", emoji: "🐻", bg: "#5d4037" },
+    { pt: "Vaca", en: "Cow", es: "Vaca", emoji: "🐄", bg: "#515a5a" },
+    { pt: "Veado", en: "Deer", es: "Ciervo", emoji: "🦌", bg: "#a04000" },
+    { pt: "Zebra", en: "Zebra", es: "Cebra", emoji: "🦓", bg: "#2c3e50" }
   ];
 
-  let pool = [...animals];
+  let queue = [...allAnimals];
   let history = [];
-  let current = null;
-  let records = { pt: null, es: null, en: null };
+  let currentAnimal = null;
+  let audioChunks = { pt: null, es: null, en: null };
   let isLocked = true;
 
   function toggleLock() {
     isLocked = !isLocked;
     document.getElementById('lockBtn').textContent = isLocked ? '🔒' : '🔓';
-    checkProgress();
+    checkRequirements();
   }
 
-  function checkProgress() {
-    const done = records.pt && records.es && records.en;
-    document.getElementById('nextBtn').disabled = isLocked && !done;
+  function checkRequirements() {
+    const hasAll = audioChunks.pt && audioChunks.es && audioChunks.en;
+    document.getElementById('btnNext').disabled = isLocked && !hasAll;
     
-    const n = pool.length;
-    let label = n === 1 ? "Falta 1 animal" : (n > 1 ? `Faltam ${n} animais` : "Safari completo! 🏆");
-    document.getElementById('counterUI').textContent = label;
+    const count = queue.length;
+    // Legendas em Inglês
+    let text = count > 1 ? `${count} animals left` : (count === 1 ? "Last animal!" : "Safari complete!");
+    document.getElementById('counterUI').textContent = text;
   }
 
-  function render(a) {
-    current = a;
-    document.getElementById('mainEmoji').textContent = a.emoji;
-    document.getElementById('t-pt').textContent = a.pt;
-    document.getElementById('t-es').textContent = a.es;
-    document.getElementById('t-en').textContent = a.en;
-    document.getElementById('card').style.background = `linear-gradient(135deg, ${a.hex}aa, #0b1a30)`;
+  function displayAnimal(animal) {
+    currentAnimal = animal;
+    document.getElementById('animalEmoji').textContent = animal.emoji;
+    document.getElementById('label-pt').textContent = animal.pt;
+    document.getElementById('label-es').textContent = animal.es;
+    document.getElementById('label-en').textContent = animal.en;
+    document.getElementById('card').style.background = `linear-gradient(135deg, ${animal.bg}, #0b1a30)`;
     
     ['pt', 'es', 'en'].forEach(l => {
-      records[l] = null;
-      document.getElementById(`play-${l}`).disabled = true;
-      document.getElementById(`rec-${l}`).className = 'btn-tool';
+        audioChunks[l] = null;
+        document.getElementById(`play-${l}`).disabled = true;
+        document.getElementById(`rec-${l}`).classList.remove('has-audio', 'recording');
     });
     
-    document.getElementById('prevBtn').disabled = history.length === 0;
-    checkProgress();
+    document.getElementById('btnPrev').disabled = history.length === 0;
+    checkRequirements();
+    window.speechSynthesis.cancel();
   }
 
-  function goNext() {
-    if (current) history.push(current);
-    if (pool.length === 0) pool = [...animals];
-    const i = Math.floor(Math.random() * pool.length);
-    render(pool.splice(i, 1)[0]);
+  function nextAnimal() {
+    if (currentAnimal) history.push(currentAnimal);
+    if (queue.length === 0) queue = [...allAnimals];
+    const randomIndex = Math.floor(Math.random() * queue.length);
+    displayAnimal(queue.splice(randomIndex, 1)[0]);
   }
 
-  function goBack() {
+  function prevAnimal() {
     if (history.length > 0) {
-      pool.push(current);
-      render(history.pop());
+      const prev = history.pop();
+      queue.push(currentAnimal);
+      displayAnimal(prev);
     }
   }
 
-  async function rec(l) {
+  async function startRecording(lang) {
     try {
-      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const m = new MediaRecorder(s);
-      let bits = [];
-      const b = document.getElementById(`rec-${l}`);
-      b.classList.add('recording');
-
-      m.ondataavailable = e => bits.push(e.data);
-      m.onstop = () => {
-        records[l] = URL.createObjectURL(new Blob(bits));
-        document.getElementById(`play-${l}`).disabled = false;
-        b.className = 'btn-tool success';
-        s.getTracks().forEach(t => t.stop());
-        checkProgress();
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
+      const mr = new MediaRecorder(stream, { mimeType });
+      let chunks = [];
+      const btn = document.getElementById(`rec-${lang}`);
+      btn.classList.remove('has-audio');
+      btn.classList.add('recording');
+      mr.ondataavailable = (e) => chunks.push(e.data);
+      mr.onstop = () => {
+        audioChunks[lang] = URL.createObjectURL(new Blob(chunks, { type: mimeType }));
+        document.getElementById(`play-${lang}`).disabled = false;
+        btn.classList.remove('recording');
+        btn.classList.add('has-audio');
+        stream.getTracks().forEach(track => track.stop());
+        checkRequirements();
       };
-      m.start();
-      setTimeout(() => m.state === "recording" && m.stop(), 2500);
-    } catch (e) { alert("Ative o microfone!"); }
+      mr.start();
+      setTimeout(() => { if(mr.state === "recording") mr.stop(); }, 3000);
+    } catch (err) { alert("Enable microphone!"); }
   }
 
-  function say(l) {
+  function speak(langCode) {
     window.speechSynthesis.cancel();
-    const msg = new SpeechSynthesisUtterance(current[l]);
-    msg.lang = l === 'pt' ? 'pt-BR' : (l === 'es' ? 'es-MX' : 'en-US');
-    if(l === 'en') msg.rate = 0.8;
-    window.speechSynthesis.speak(msg);
+    const text = currentAnimal[langCode];
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voiceLang = langCode === 'pt' ? 'pt-BR' : (langCode === 'es' ? 'es-MX' : 'en-US');
+    utterance.lang = voiceLang;
+    if (langCode === 'en') utterance.rate = 0.7;
+    window.speechSynthesis.speak(utterance);
   }
 
-  function play(l) { if(records[l]) new Audio(records[l]).play(); }
+  function playRecording(lang) {
+    if (audioChunks[lang]) new Audio(audioChunks[lang]).play();
+  }
 
   const sc = document.getElementById('stars');
-  for(let i=0; i<50; i++) {
+  for (let i = 0; i < 40; i++) {
     const s = document.createElement('div');
     s.className = 'star';
-    s.style.width = s.style.height = (Math.random()*2+1)+'px';
-    s.style.left = Math.random()*100+'%';
-    s.style.top = Math.random()*100+'%';
-    s.style.setProperty('--d', (Math.random()*4+2)+'s');
+    s.style.width = s.style.height = (Math.random() * 3) + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.setProperty('--d', (Math.random() * 3 + 1) + 's');
     sc.appendChild(s);
   }
 
-  window.speechSynthesis.onvoiceschanged = () => { if(!current) goNext(); };
-  if(window.speechSynthesis.getVoices().length > 0) goNext();
+  window.speechSynthesis.onvoiceschanged = () => { if(!currentAnimal) nextAnimal(); };
+  if(window.speechSynthesis.getVoices().length > 0) nextAnimal();
 </script>
 </body>
 </html>
