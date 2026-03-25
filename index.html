@@ -3,104 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escola Espacial - Escolha sua Missão!</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+<title>Vox Kids - Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #1a0533; min-height: 100vh; font-family: 'Baloo 2', cursive; overflow: hidden; user-select: none; }
-  
-  /* Fundo Estelar */
-  .stars { position: fixed; inset: 0; z-index: 0; }
-  .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
-  @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
-
-  .container { 
-    position: relative; z-index: 1; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center; 
-    min-height: 100vh; padding: 20px; text-align: center;
-  }
-
-  .title { 
-    font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: #ffe066; 
-    text-shadow: 0 5px 0 #b37700; margin-bottom: 40px; animation: bounce 2s infinite;
-  }
-  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-  .menu-grid { 
-    display: flex; flex-direction: column; gap: 25px; width: 100%; max-width: 320px; 
-  }
-
-  .menu-card {
-    text-decoration: none;
-    padding: 25px;
-    border-radius: 30px;
-    border: 4px solid #fff;
+  html, body { 
+    background: #0b1a30; 
+    min-height: 100vh; 
+    font-family: 'Baloo 2', cursive; 
+    overflow: hidden; 
+    color: white; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+  }
+
+  /* Fundo Estelar */
+  .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .star { position: absolute; border-radius: 50%; background: #fff; animation: twinkle var(--d) ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: 0.2; transform: scale(0.8); } to { opacity: 1; transform: scale(1.2); } }
+
+  /* Título VOX KIDS */
+  .logo-container {
+    z-index: 10;
+    text-align: center;
+    margin-bottom: 40px;
+    animation: float 5s ease-in-out infinite;
+  }
+  .app-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(3rem, 15vw, 4.5rem);
+    letter-spacing: 4px;
+    background: linear-gradient(to bottom, #fff 40%, #4dabf7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6));
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+  /* Grid de Menu */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 85%;
+    max-width: 400px;
+    z-index: 10;
+  }
+
+  .menu-item {
+    text-decoration: none;
+    padding: 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
     transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  .menu-item:active { transform: scale(0.95); }
+
+  /* Cores dos Botões */
+  .btn-safari { background: #27ae60; box-shadow: 0 8px 0 #1e8449; }
+  .btn-letras { background: #e74c3c; box-shadow: 0 8px 0 #c0392b; }
+  .btn-numeros { background: #f1c40f; box-shadow: 0 8px 0 #b7950b; color: #5e3a00; }
+
+  .icon-circle {
+    background: rgba(255,255,255,0.2);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
   }
 
-  .menu-card:active { transform: scale(0.95); }
-
-  /* Estilo Missão Animais */
-  .btn-animals {
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    box-shadow: 0 10px 0 #1e8449;
+  .version-tag {
+    position: absolute;
+    bottom: 15px;
+    opacity: 0.4;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
   }
-
-  /* Estilo Missão Números */
-  .btn-numbers {
-    background: linear-gradient(135deg, #ff9900, #e67e22);
-    box-shadow: 0 10px 0 #b35900;
-  }
-
-  .icon { font-size: 50px; }
-  .label { 
-    font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: #fff; 
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-
-  .footer-text { margin-top: 50px; color: rgba(255,255,255,0.5); font-weight: bold; }
 </style>
 </head>
 <body>
 
 <div class="stars" id="stars"></div>
 
-<div class="container">
-  <h1 class="title">QUAL É A<br>MISSÃO DE HOJE?</h1>
-
-  <div class="menu-grid">
-    <a href="animals.html" class="menu-card btn-animals">
-      <span class="icon">🦁</span>
-      <span class="label">ANIMAIS</span>
-    </a>
-
-    <a href="numbers.html" class="menu-card btn-numbers">
-      <span class="icon">🔢</span>
-      <span class="label">NÚMEROS</span>
-    </a>
-  </div>
-
-  <p class="footer-text">🚀 Praticar para decolar!</p>
+<div class="logo-container">
+  <h1 class="app-title">VOX KIDS</h1>
 </div>
 
+<div class="menu-grid">
+  <a href="safari.html" class="menu-item btn-safari">
+    <span>SAFARI</span>
+    <div class="icon-circle">🦁</div>
+  </a>
+
+  <a href="letras.html" class="menu-item btn-letras">
+    <span>LETRAS</span>
+    <div class="icon-circle">Abc</div>
+  </a>
+
+  <a href="numeros.html" class="menu-item btn-numeros">
+    <span>NÚMEROS</span>
+    <div class="icon-circle">123</div>
+  </a>
+</div>
+
+<div class="version-tag">VOX KIDS v1.4.5 - MENU INICIAL</div>
+
 <script>
-  // Gerador de estrelas igual aos outros apps
-  const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 50; i++) {
+  // Gerador de estrelas para o fundo
+  const sc = document.getElementById('stars');
+  for(let i=0; i<60; i++) {
     const s = document.createElement('div');
     s.className = 'star';
-    s.style.width = s.style.height = (Math.random() * 3) + 'px';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    s.style.setProperty('--d', (Math.random() * 3 + 1) + 's');
-    starsContainer.appendChild(s);
+    s.style.width = s.style.height = (Math.random()*3+1)+'px';
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.setProperty('--d', (Math.random()*4+2)+'s');
+    sc.appendChild(s);
   }
 </script>
-
 </body>
 </html>
