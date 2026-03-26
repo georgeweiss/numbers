@@ -28,7 +28,7 @@
   .logo-container {
     z-index: 10;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     animation: float 5s ease-in-out infinite;
   }
   .app-title {
@@ -46,7 +46,7 @@
   .menu-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 15px;
     width: 85%;
     max-width: 400px;
     z-index: 10;
@@ -54,12 +54,12 @@
 
   .menu-item {
     text-decoration: none;
-    padding: 20px;
+    padding: 18px 25px;
     border-radius: 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 800;
     color: white;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -71,6 +71,8 @@
   .btn-animals { background: #27ae60; box-shadow: 0 8px 0 #1e8449; }
   .btn-letters { background: #e74c3c; box-shadow: 0 8px 0 #c0392b; }
   .btn-numbers { background: #f1c40f; box-shadow: 0 8px 0 #b7950b; color: #5e3a00; }
+  /* New Solar System Button */
+  .btn-solar   { background: #8e44ad; box-shadow: 0 8px 0 #6c3483; }
 
   .icon-circle {
     background: rgba(255,255,255,0.2);
@@ -83,7 +85,7 @@
     font-size: 1.8rem;
   }
 
-  /* Footer Cleaned */
+  /* Footer */
   .version-tag {
     position: absolute;
     bottom: 15px;
@@ -117,12 +119,17 @@
     <span>NUMBERS</span>
     <div class="icon-circle">123</div>
   </a>
+
+  <a href="solar.html" class="menu-item btn-solar">
+    <span>SOLAR SYSTEM</span>
+    <div class="icon-circle">🪐</div>
+  </a>
 </div>
 
-<div class="version-tag">VOX KIDS v1.4.6</div>
+<div class="version-tag">VOX KIDS v1.4.7</div>
 
 <script>
-  // Star generation
+  // Star generation logic
   const sc = document.getElementById('stars');
   for(let i=0; i<60; i++) {
     const s = document.createElement('div');
