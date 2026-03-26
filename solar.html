@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -191,80 +190,80 @@ font-size: 1.1rem; display: flex; justify-content: center; transition: 0.2s;
 
 <script>
 // ═══════════════════════════════════════════════
-//  PLANET DATA
+//  PLANET DATA (REVISED TEXTS AND EARTH UPGRADE)
 // ═══════════════════════════════════════════════
 var planetData = {
   "Sol":      { bg: "#d35400", pt: "Sol",      es: "Sol",      en: "Sun",
     canvasColor: "#ffcc22", canvasGlow: "#ff8800", isSun: true,
     facts: [
-      { pt: "E uma estrela gigante feita de gas.", es: "Es una estrella gigante hecha de gas.", en: "It is a giant star made of gas." },
-      { pt: "E tao grande que caberia um milhao de Terras dentro.", es: "Es tan grande que cabrian un millon de Tierras.", en: "A million Earths could fit inside the Sun." },
+      { pt: "É uma estrela gigante feita de gás.", es: "Es una estrella gigante hecha de gas.", en: "It is a giant star made of gas." },
+      { pt: "É tão grande que caberia um milhão de Terras dentro.", es: "Es tan grande que cabrían un millón de Tierras dentro.", en: "A million Earths could fit inside the Sun." },
       { pt: "Fornece luz e calor para todo o sistema solar.", es: "Proporciona luz y calor a todo el sistema solar.", en: "It provides light and heat to the entire solar system." }
     ]
   },
-  "Mercurio": { bg: "#7f8c8d", pt: "Mercurio", es: "Mercurio", en: "Mercury",
+  "Mercurio": { bg: "#7f8c8d", pt: "Mercúrio", es: "Mercurio", en: "Mercury",
     canvasColor: "#b5b5b5", canvasGlow: "#888888",
     facts: [
-      { pt: "E o planeta mais proximo do Sol.", es: "Es el planeta mas cercano al Sol.", en: "It is the closest planet to the Sun." },
-      { pt: "E o menor planeta do sistema solar.", es: "Es el planeta mas pequeno del sistema solar.", en: "It is the smallest planet in our solar system." },
-      { pt: "Nao tem atmosfera para reter calor.", es: "No tiene atmosfera para retener el calor.", en: "It has no atmosphere to hold in heat." }
+      { pt: "É o planeta mais próximo do Sol.", es: "Es el planeta más cercano al Sol.", en: "It is the closest planet to the Sun." },
+      { pt: "É o menor planeta do sistema solar.", es: "Es el planeta más pequeño del sistema solar.", en: "It is the smallest planet in our solar system." },
+      { pt: "Não tem atmosfera para reter calor.", es: "No tiene atmósfera para retener el calor.", en: "It has no atmosphere to hold in heat." }
     ]
   },
-  "Venus":    { bg: "#d4ac0d", pt: "Venus",    es: "Venus",    en: "Venus",
+  "Venus":    { bg: "#d4ac0d", pt: "Vênus",    es: "Venus",    en: "Venus",
     canvasColor: "#e8c97a", canvasGlow: "#d4a84b",
     facts: [
-      { pt: "E o planeta mais quente de todos.", es: "Es el planeta mas caliente de todos.", en: "It is the hottest planet of all." },
-      { pt: "Gira ao contrario comparado aos outros planetas.", es: "Gira al reves comparado con otros planetas.", en: "It spins backwards compared to other planets." },
-      { pt: "Brilha muito forte no ceu noturno.", es: "Brilla intensamente en el cielo nocturno.", en: "It shines very brightly in the night sky." }
+      { pt: "É o planeta mais quente de todos.", es: "Es el planeta más caliente de todos.", en: "It is the hottest planet of all." },
+      { pt: "Gira ao contrário comparado aos outros planetas.", es: "Gira al revés comparado con otros planetas.", en: "It spins backwards compared to other planets." },
+      { pt: "Brilha muito forte no céu noturno.", es: "Brilla intensamente en el cielo nocturno.", en: "It shines very brightly in the night sky." }
     ]
   },
   "Terra":    { bg: "#2874a6", pt: "Terra",    es: "Tierra",   en: "Earth",
     canvasColor: "#4fa3e0", canvasGlow: "#2a7fcf",
     facts: [
-      { pt: "E o unico planeta conhecido com vida.", es: "Es el unico planeta conocido con vida.", en: "It is the only known planet with life." },
-      { pt: "Mais de 70% da superficie e coberta por agua.", es: "Mas del 70% de su superficie esta cubierta de agua.", en: "Over 70% of its surface is covered by water." },
-      { pt: "Tem apenas uma lua chamada Lua.", es: "Tiene solo una luna llamada Luna.", en: "It has only one moon called the Moon." }
+      { pt: "É o único planeta conhecido com vida e água líquida.", es: "Es el único planeta conocido con vida y agua líquida.", en: "It is the only known planet with life and liquid water." },
+      { pt: "Vista do espaço, parece uma linda bolinha azul.", es: "Vista desde el espacio, parece una linda bolita azul.", en: "Seen from space, it looks like a beautiful blue marble." },
+      { pt: "Leva um ano inteirinho para dar a volta no Sol.", es: "Tarda un año entero en dar la vuelta al Sol.", en: "It takes a whole year to travel around the Sun." }
     ]
   },
   "Marte":    { bg: "#c0392b", pt: "Marte",    es: "Marte",    en: "Mars",
     canvasColor: "#c1440e", canvasGlow: "#9e3009",
     facts: [
-      { pt: "E conhecido como o Planeta Vermelho.", es: "Es conocido como el Planeta Rojo.", en: "It is known as the Red Planet." },
-      { pt: "Tem o maior vulcao do sistema solar.", es: "Tiene el volcan mas grande del sistema solar.", en: "It has the largest volcano in the solar system." },
-      { pt: "Cientistas enviaram robos para explora-lo.", es: "Los cientificos enviaron robots para explorarlo.", en: "Scientists have sent rovers to explore it." }
+      { pt: "É conhecido como o Planeta Vermelho.", es: "Es conocido como el Planeta Rojo.", en: "It is known as the Red Planet." },
+      { pt: "Tem o maior vulcão do sistema solar.", es: "Tiene el volcán más grande del sistema solar.", en: "It has the largest volcano in the solar system." },
+      { pt: "Cientistas enviaram robôs para explorá-lo.", es: "Los científicos enviaron robots para explorarlo.", en: "Scientists have sent rovers to explore it." }
     ]
   },
-  "Jupiter":  { bg: "#d68910", pt: "Jupiter",  es: "Jupiter",  en: "Jupiter",
+  "Jupiter":  { bg: "#d68910", pt: "Júpiter",  es: "Júpiter",  en: "Jupiter",
     canvasColor: "#c88b3a", canvasGlow: "#a06820",
     bands: ["#d4a55a","#b87030","#e8c070","#a05820","#ddb060"],
     facts: [
-      { pt: "E o maior planeta do sistema solar.", es: "Es el planeta mas grande del sistema solar.", en: "It is the largest planet in our solar system." },
+      { pt: "É o maior planeta do sistema solar.", es: "Es el planeta más grande del sistema solar.", en: "It is the largest planet in our solar system." },
       { pt: "Tem uma tempestade gigante chamada Grande Mancha Vermelha.", es: "Tiene una tormenta gigante llamada Gran Mancha Roja.", en: "It has a giant storm called the Great Red Spot." },
-      { pt: "E um gigante gasoso sem chao solido.", es: "Es un gigante gaseoso sin suelo solido.", en: "It is a gas giant with no solid ground." }
+      { pt: "É um gigante gasoso sem chão sólido.", es: "Es un gigante gaseoso sin suelo sólido.", en: "It is a gas giant with no solid ground." }
     ]
   },
   "Saturno":  { bg: "#f4d03f", pt: "Saturno",  es: "Saturno",  en: "Saturn",
     canvasColor: "#e8d5a0", canvasGlow: "#c8b060", rings: true, tilt: 0.46,
     facts: [
-      { pt: "E famoso pelos seus lindos aneis de gelo e rocha.", es: "Es famoso por sus hermosos anillos de hielo y roca.", en: "It is famous for its beautiful rings made of ice and rock." },
-      { pt: "E tao leve que flutuaria na agua.", es: "Es tan ligero que flotaria en el agua.", en: "It is so light it would float in water." },
-      { pt: "Tem mais de 80 luas ao seu redor.", es: "Tiene mas de 80 lunas a su alrededor.", en: "It has over 80 moons around it." }
+      { pt: "É famoso pelos seus lindos anéis de gelo e rocha.", es: "Es famoso por sus hermosos anillos de hielo y roca.", en: "It is famous for its beautiful rings made of ice and rock." },
+      { pt: "É tão leve que flutuaria na água.", es: "Es tan ligero que flotaría en el agua.", en: "It is so light it would float in water." },
+      { pt: "Tem mais de 80 luas ao seu redor.", es: "Tiene más de 80 lunas a su alrededor.", en: "It has over 80 moons around it." }
     ]
   },
   "Urano":    { bg: "#5dade2", pt: "Urano",    es: "Urano",    en: "Uranus",
     canvasColor: "#7de8e8", canvasGlow: "#40c8c8", rings: true, tilt: 1.51,
     facts: [
-      { pt: "E o planeta mais frio do sistema solar.", es: "Es el planeta mas frio del sistema solar.", en: "It is the coldest planet in the solar system." },
+      { pt: "É o planeta mais frio do sistema solar.", es: "Es el planeta más frío del sistema solar.", en: "It is the coldest planet in the solar system." },
       { pt: "Ele gira de lado como um barril.", es: "Rueda de lado como un barril.", en: "It rolls on its side like a barrel." },
-      { pt: "Tambem possui aneis, mas sao muito finos.", es: "Tambien tiene anillos, pero son muy delgados.", en: "It also has rings, but they are very thin." }
+      { pt: "Também possui anéis, mas são muito finos.", es: "También tiene anillos, pero son muy delgados.", en: "It also has rings, but they are very thin." }
     ]
   },
   "Netuno":   { bg: "#21618c", pt: "Netuno",   es: "Neptuno",  en: "Neptune",
     canvasColor: "#4060f8", canvasGlow: "#2040d0",
     facts: [
-      { pt: "E o planeta mais longe do Sol.", es: "Es el planeta mas alejado del Sol.", en: "It is the farthest planet from the Sun." },
-      { pt: "Tem ventos super rapidos e grandes tempestades.", es: "Tiene vientos super rapidos y grandes tormentas.", en: "It has super fast winds and large storms." },
-      { pt: "E conhecido como o gigante de gelo azul.", es: "Es conocido como el gigante de hielo azul.", en: "It is known as the blue ice giant." }
+      { pt: "É o planeta mais longe do Sol.", es: "Es el planeta más alejado del Sol.", en: "It is the farthest planet from the Sun." },
+      { pt: "Tem ventos super rápidos e grandes tempestades.", es: "Tiene vientos súper rápidos y grandes tormentas.", en: "It has super fast winds and large storms." },
+      { pt: "É conhecido como o gigante de gelo azul.", es: "Es conocido como el gigante de hielo azul.", en: "It is known as the blue ice giant." }
     ]
   }
 };
