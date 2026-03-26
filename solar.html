@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -80,34 +79,34 @@ tws: 0.008 + Math.random() * 0.018
 
 // Planets
 var planets = [
-{ name: “Mercurio”, orbit: 68,  r: 4,  color: “#b5b5b5”, glow: “#888888”, speed: 0.047, angle: Math.random()*6.28, trail: [] },
-{ name: “Venus”,    orbit: 105, r: 6,  color: “#e8c97a”, glow: “#d4a84b”, speed: 0.035, angle: Math.random()*6.28, trail: [] },
-{ name: “Terra”,    orbit: 148, r: 7,  color: “#4fa3e0”, glow: “#2a7fcf”, speed: 0.029, angle: Math.random()*6.28, trail: [],
-moons: [{ r: 1.8, orbit: 16, angle: 0, speed: 0.09, color: “#cccccc” }] },
-{ name: “Marte”,    orbit: 198, r: 5.5,color: “#c1440e”, glow: “#9e3009”, speed: 0.024, angle: Math.random()*6.28, trail: [],
+{ name: "Mercurio", orbit: 68,  r: 4,  color: "#b5b5b5", glow: "#888888", speed: 0.047, angle: Math.random()*6.28, trail: [] },
+{ name: "Venus",    orbit: 105, r: 6,  color: "#e8c97a", glow: "#d4a84b", speed: 0.035, angle: Math.random()*6.28, trail: [] },
+{ name: "Terra",    orbit: 148, r: 7,  color: "#4fa3e0", glow: "#2a7fcf", speed: 0.029, angle: Math.random()*6.28, trail: [],
+moons: [{ r: 1.8, orbit: 16, angle: 0, speed: 0.09, color: "#cccccc" }] },
+{ name: "Marte",    orbit: 198, r: 5.5,color: "#c1440e", glow: "#9e3009", speed: 0.024, angle: Math.random()*6.28, trail: [],
 moons: [
-{ r: 1.2, orbit: 11, angle: 0,   speed: 0.14, color: “#aaaaaa” },
-{ r: 1.0, orbit: 16, angle: 2.1, speed: 0.07, color: “#999999” }
+{ r: 1.2, orbit: 11, angle: 0,   speed: 0.14, color: "#aaaaaa" },
+{ r: 1.0, orbit: 16, angle: 2.1, speed: 0.07, color: "#999999" }
 ]},
-{ name: “Jupiter”,  orbit: 285, r: 22, color: “#c88b3a”, glow: “#a06820”, speed: 0.013, angle: Math.random()*6.28, trail: [],
-bands: [”#d4a55a”,”#b87030”,”#e8c070”,”#a05820”,”#ddb060”],
+{ name: "Jupiter",  orbit: 285, r: 22, color: "#c88b3a", glow: "#a06820", speed: 0.013, angle: Math.random()*6.28, trail: [],
+bands: ["#d4a55a","#b87030","#e8c070","#a05820","#ddb060"],
 moons: [
-{ r: 2.0, orbit: 32, angle: 0,   speed: 0.07, color: “#e0c080” },
-{ r: 1.8, orbit: 42, angle: 1.5, speed: 0.05, color: “#c0a060” },
-{ r: 2.5, orbit: 54, angle: 3.0, speed: 0.04, color: “#d0b870” },
-{ r: 1.8, orbit: 66, angle: 5.0, speed: 0.03, color: “#b89050” }
+{ r: 2.0, orbit: 32, angle: 0,   speed: 0.07, color: "#e0c080" },
+{ r: 1.8, orbit: 42, angle: 1.5, speed: 0.05, color: "#c0a060" },
+{ r: 2.5, orbit: 54, angle: 3.0, speed: 0.04, color: "#d0b870" },
+{ r: 1.8, orbit: 66, angle: 5.0, speed: 0.03, color: "#b89050" }
 ]},
-{ name: “Saturno”,  orbit: 375, r: 18, color: “#e8d5a0”, glow: “#c8b060”, speed: 0.009, angle: Math.random()*6.28, trail: [],
+{ name: "Saturno",  orbit: 375, r: 18, color: "#e8d5a0", glow: "#c8b060", speed: 0.009, angle: Math.random()*6.28, trail: [],
 rings: true, tilt: 0.46,
 moons: [
-{ r: 2.5, orbit: 44, angle: 0,   speed: 0.06, color: “#e0d090” },
-{ r: 1.8, orbit: 60, angle: 2.0, speed: 0.04, color: “#c0b070” }
+{ r: 2.5, orbit: 44, angle: 0,   speed: 0.06, color: "#e0d090" },
+{ r: 1.8, orbit: 60, angle: 2.0, speed: 0.04, color: "#c0b070" }
 ]},
-{ name: “Urano”,    orbit: 460, r: 13, color: “#7de8e8”, glow: “#40c8c8”, speed: 0.006, angle: Math.random()*6.28, trail: [],
+{ name: "Urano",    orbit: 460, r: 13, color: "#7de8e8", glow: "#40c8c8", speed: 0.006, angle: Math.random()*6.28, trail: [],
 rings: true, tilt: 1.51,
-moons: [{ r: 1.3, orbit: 24, angle: 0, speed: 0.08, color: “#aaeeff” }] },
-{ name: “Netuno”,   orbit: 545, r: 12, color: “#4060f8”, glow: “#2040d0”, speed: 0.004, angle: Math.random()*6.28, trail: [],
-moons: [{ r: 1.8, orbit: 23, angle: 1.0, speed: 0.07, color: “#8899ff” }] }
+moons: [{ r: 1.3, orbit: 24, angle: 0, speed: 0.08, color: "#aaeeff" }] },
+{ name: "Netuno",   orbit: 545, r: 12, color: "#4060f8", glow: "#2040d0", speed: 0.004, angle: Math.random()*6.28, trail: [],
+moons: [{ r: 1.8, orbit: 23, angle: 1.0, speed: 0.07, color: "#8899ff" }] }
 ];
 
 // Asteroids
@@ -125,36 +124,36 @@ alpha: 0.25 + Math.random() * 0.5
 var TRAIL = 60;
 var sunRot = 0;
 var t = 0;
-var labelEl = document.getElementById(“planet-label”);
+var labelEl = document.getElementById("planet-label");
 
 function hexRgb(hex) {
-return parseInt(hex.slice(1,3),16)+”,”+parseInt(hex.slice(3,5),16)+”,”+parseInt(hex.slice(5,7),16);
+return parseInt(hex.slice(1,3),16)+","+parseInt(hex.slice(3,5),16)+","+parseInt(hex.slice(5,7),16);
 }
 
 function drawSun() {
 // Far corona
 var c1 = ctx.createRadialGradient(0,0,0, 0,0,130);
-c1.addColorStop(0,   “rgba(255,220,100,0.18)”);
-c1.addColorStop(0.45,“rgba(255,120,20,0.07)”);
-c1.addColorStop(1,   “rgba(255,60,0,0)”);
+c1.addColorStop(0,   "rgba(255,220,100,0.18)");
+c1.addColorStop(0.45,"rgba(255,120,20,0.07)");
+c1.addColorStop(1,   "rgba(255,60,0,0)");
 ctx.beginPath(); ctx.arc(0,0,130,0,Math.PI*2);
 ctx.fillStyle = c1; ctx.fill();
 
 // Inner glow
 var c2 = ctx.createRadialGradient(0,0,0, 0,0,65);
-c2.addColorStop(0,   “rgba(255,255,210,1)”);
-c2.addColorStop(0.35,“rgba(255,200,60,0.85)”);
-c2.addColorStop(0.7, “rgba(255,130,15,0.55)”);
-c2.addColorStop(1,   “rgba(255,60,0,0)”);
+c2.addColorStop(0,   "rgba(255,255,210,1)");
+c2.addColorStop(0.35,"rgba(255,200,60,0.85)");
+c2.addColorStop(0.7, "rgba(255,130,15,0.55)");
+c2.addColorStop(1,   "rgba(255,60,0,0)");
 ctx.beginPath(); ctx.arc(0,0,65,0,Math.PI*2);
 ctx.fillStyle = c2; ctx.fill();
 
 // Body
 ctx.save(); ctx.rotate(sunRot);
 var body = ctx.createRadialGradient(-8,-10,0, 0,0,30);
-body.addColorStop(0,   “rgba(255,255,230,1)”);
-body.addColorStop(0.5, “rgba(255,195,55,1)”);
-body.addColorStop(1,   “rgba(255,110,10,1)”);
+body.addColorStop(0,   "rgba(255,255,230,1)");
+body.addColorStop(0.5, "rgba(255,195,55,1)");
+body.addColorStop(1,   "rgba(255,110,10,1)");
 ctx.beginPath(); ctx.arc(0,0,30,0,Math.PI*2);
 ctx.fillStyle = body; ctx.fill();
 
@@ -162,7 +161,7 @@ ctx.fillStyle = body; ctx.fill();
 ctx.globalAlpha = 0.22;
 [[7,-9,4],[-12,7,3],[14,11,3],[-7,-15,2]].forEach(function(s){
 ctx.beginPath(); ctx.arc(s[0],s[1],s[2],0,Math.PI*2);
-ctx.fillStyle=”#b04500”; ctx.fill();
+ctx.fillStyle="#b04500"; ctx.fill();
 });
 ctx.globalAlpha = 1;
 
@@ -174,7 +173,7 @@ var fl = 32 + Math.sin(t*1.8 + f*0.9)*10;
 ctx.beginPath();
 ctx.moveTo(Math.cos(fa)*27, Math.sin(fa)*27);
 ctx.lineTo(Math.cos(fa)*fl, Math.sin(fa)*fl);
-ctx.strokeStyle = “rgba(255,”+(150+f*8)+”,30,0.45)”;
+ctx.strokeStyle = "rgba(255,"+(150+f*8)+",30,0.45)";
 ctx.lineWidth = 2*inv; ctx.stroke();
 }
 ctx.restore();
@@ -183,7 +182,7 @@ ctx.restore();
 function drawOrbit(r) {
 var inv = 1/(cam.zoom*BASE_SCALE);
 ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2);
-ctx.strokeStyle = “rgba(255,255,255,0.04)”;
+ctx.strokeStyle = "rgba(255,255,255,0.04)";
 ctx.lineWidth = 0.8*inv;
 ctx.setLineDash([4*inv, 9*inv]); ctx.stroke(); ctx.setLineDash([]);
 }
@@ -201,7 +200,7 @@ var ry = rx*Math.abs(Math.sin(tilt))+1;
 var rw = ring.out - ring.inn;
 ctx.beginPath();
 ctx.ellipse(0,0, rx+rw/2, ry, 0, 0, Math.PI*2);
-ctx.strokeStyle = “rgba(220,200,140,”+ring.a+”)”;
+ctx.strokeStyle = "rgba(220,200,140,"+ring.a+")";
 ctx.lineWidth = rw*0.65; ctx.stroke();
 });
 ctx.restore();
@@ -221,14 +220,14 @@ var a = (i/p.trail.length)*0.28;
 ctx.beginPath();
 ctx.moveTo(p.trail[i-1].x, p.trail[i-1].y);
 ctx.lineTo(p.trail[i].x, p.trail[i].y);
-ctx.strokeStyle = “rgba(”+rgb+”,”+a+”)”;
+ctx.strokeStyle = "rgba("+rgb+","+a+")";
 ctx.lineWidth = 1.5*inv; ctx.stroke();
 }
 
 // Glow
 var grd = ctx.createRadialGradient(px,py,0, px,py,p.r*3.5);
-grd.addColorStop(0,“rgba(”+rgb+”,0.35)”);
-grd.addColorStop(1,“rgba(”+rgb+”,0)”);
+grd.addColorStop(0,"rgba("+rgb+",0.35)");
+grd.addColorStop(1,"rgba("+rgb+",0)");
 ctx.beginPath(); ctx.arc(px,py,p.r*3.5,0,Math.PI*2);
 ctx.fillStyle=grd; ctx.fill();
 
@@ -240,17 +239,17 @@ if (p.bands) {
 ctx.save();
 ctx.beginPath(); ctx.arc(px,py,p.r,0,Math.PI*2); ctx.clip();
 var bb = ctx.createRadialGradient(px-p.r*0.3,py-p.r*0.3,0, px,py,p.r);
-bb.addColorStop(0,”#e8c060”); bb.addColorStop(1,”#7a4208”);
+bb.addColorStop(0,"#e8c060"); bb.addColorStop(1,"#7a4208");
 ctx.fillStyle=bb; ctx.fillRect(px-p.r,py-p.r,p.r*2,p.r*2);
 for (var b=0; b<p.bands.length; b++) {
 var by = py-p.r+(b/p.bands.length)*p.r*2;
-ctx.fillStyle=p.bands[b]+“88”;
+ctx.fillStyle=p.bands[b]+"88";
 ctx.fillRect(px-p.r,by,p.r*2,p.r*0.32);
 }
 ctx.restore();
 } else {
 var g2 = ctx.createRadialGradient(px-p.r*0.35,py-p.r*0.35,p.r*0.05, px,py,p.r);
-g2.addColorStop(0,“rgba(255,255,255,0.55)”);
+g2.addColorStop(0,"rgba(255,255,255,0.55)");
 g2.addColorStop(0.3,p.color);
 g2.addColorStop(1,p.glow);
 ctx.beginPath(); ctx.arc(px,py,p.r,0,Math.PI*2);
@@ -280,7 +279,7 @@ var best = null, bestD = Infinity;
 // Also check Sun
 var sunSx = W/2 + cam.x, sunSy = H/2 + cam.y;
 var dSun = Math.sqrt((tx-sunSx)*(tx-sunSx)+(ty-sunSy)*(ty-sunSy));
-if (dSun < 36*scale) return { name: “SOL” };
+if (dSun < 36*scale) return { name: "SOL" };
 
 planets.forEach(function(p){
 var wx = Math.cos(p.angle - p.speed)*p.orbit*scale + W/2 + cam.x;
@@ -294,11 +293,11 @@ return best;
 
 function showLabel(name) {
 labelEl.textContent = name;
-labelEl.style.opacity = “1”;
+labelEl.style.opacity = "1";
 if (labelTimeout) clearTimeout(labelTimeout);
 labelTimeout = setTimeout(function(){
-labelEl.style.opacity = “0”;
-setTimeout(function(){ labelEl.textContent = “SISTEMA SOLAR”; labelEl.style.opacity = “1”; }, 400);
+labelEl.style.opacity = "0";
+setTimeout(function(){ labelEl.textContent = "SISTEMA SOLAR"; labelEl.style.opacity = "1"; }, 400);
 }, 2500);
 }
 
@@ -306,7 +305,7 @@ setTimeout(function(){ labelEl.textContent = “SISTEMA SOLAR”; labelEl.style.
 var drag = { on: false, lx: 0, ly: 0, moved: false };
 var pinch = { on: false, ld: 0 };
 
-canvas.addEventListener(“touchstart”, function(e){
+canvas.addEventListener("touchstart", function(e){
 e.preventDefault();
 var ts = e.touches;
 if (ts.length === 1) {
@@ -320,7 +319,7 @@ pinch.ld = Math.sqrt(dx*dx+dy*dy);
 }
 },{passive:false});
 
-canvas.addEventListener(“touchmove”, function(e){
+canvas.addEventListener("touchmove", function(e){
 e.preventDefault();
 var ts = e.touches;
 if (drag.on && ts.length===1) {
@@ -336,7 +335,7 @@ pinch.ld=d;
 }
 },{passive:false});
 
-canvas.addEventListener(“touchend”, function(e){
+canvas.addEventListener("touchend", function(e){
 // If finger lifted without moving = tap
 if (drag.on && !drag.moved && e.changedTouches.length===1) {
 var tx = e.changedTouches[0].clientX;
@@ -347,8 +346,8 @@ if (hit) showLabel(hit.name.toUpperCase());
 if (e.touches.length===0){drag.on=false; pinch.on=false;}
 });
 
-document.getElementById(“zin”).addEventListener(“click”, function(){ cam.zoom=Math.min(6,cam.zoom*1.28); });
-document.getElementById(“zout”).addEventListener(“click”, function(){ cam.zoom=Math.max(0.25,cam.zoom/1.28); });
+document.getElementById("zin").addEventListener("click", function(){ cam.zoom=Math.min(6,cam.zoom*1.28); });
+document.getElementById("zout").addEventListener("click", function(){ cam.zoom=Math.max(0.25,cam.zoom/1.28); });
 
 // ── Animate ──────────────────────────────────────────────────────────
 var frame = 0;
@@ -356,7 +355,7 @@ function animate() {
 requestAnimationFrame(animate);
 frame++; t+=0.016; sunRot+=0.003;
 
-ctx.fillStyle = “rgba(0,0,5,0.26)”;
+ctx.fillStyle = "rgba(0,0,5,0.26)";
 ctx.fillRect(0,0,W,H);
 
 var scale = cam.zoom * BASE_SCALE;
@@ -368,7 +367,7 @@ var a = s.alpha*(0.5+0.5*Math.sin(s.tw));
 var sx = ((s.x + W/2 + cam.x*0.05) % (W*2) + W*2) % (W*2);
 var sy = ((s.y + H/2 + cam.y*0.05) % (H*2) + H*2) % (H*2);
 ctx.beginPath(); ctx.arc(sx,sy,s.r,0,Math.PI*2);
-ctx.fillStyle=“rgba(255,255,255,”+a+”)”; ctx.fill();
+ctx.fillStyle="rgba(255,255,255,"+a+")"; ctx.fill();
 });
 
 ctx.save();
@@ -383,7 +382,7 @@ asteroids.forEach(function(a){
 a.angle+=a.speed;
 ctx.beginPath();
 ctx.arc(Math.cos(a.angle)*a.orbit, Math.sin(a.angle)*a.orbit, a.r,0,Math.PI*2);
-ctx.fillStyle=“rgba(155,135,115,”+a.alpha+”)”; ctx.fill();
+ctx.fillStyle="rgba(155,135,115,"+a.alpha+")"; ctx.fill();
 });
 
 // Planets
@@ -399,6 +398,5 @@ if (frame % 60 === 0) {} // label updated only on tap
 
 animate();
 </script>
-
 </body>
 </html>
